@@ -1,0 +1,495 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu_union_verify" content="d1952c66cf48912e21c18c7c581f382a">
+  <meta name="360-site-verification" content="67fbcc5a67f4c65c057315b28fa0b2c8" />
+<meta name="google-site-verification" content="2GzxQ0VtXwTSUdmGm6DzcmhTzM_I9QmzCb_pzpMzD88" />
+  
+    <title>Android的坑之ScrollView嵌套ViewPager | 菜鸟的天堂——hellsam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="HellSam">
+    
+    <meta name="description" content="问题描述
+ScrollView里面嵌套ViewPager之后ViewPager中的内容无法显示
+如下图，下面的ViewPager中的内容无法显示
+
+布局代码：
+1234567891011121314151617181920212223242526272829303132333435363738394">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="菜鸟的天堂——hellsam" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            var _bdId ='ab7f3e6552e292b9130dc7bd93c9d260';
+             hm.src = "//hm.baidu.com/hm.js?" + _bdId;
+             var s = document.getElementsByTagName("script")[0]; 
+             s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+     
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="菜鸟的天堂——hellsam">菜鸟的天堂——hellsam</a></h1>
+				<a class="blog-motto">一步两步一步两步，似大神的步伐</a>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/android">Android</a></li>
+					
+						<li><a href="/categories/nodejs">NodeJS</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:hellsam.com">
+					</form>
+					
+					</li>
+				</ul>
+                            </nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/01/29/Android的坑之ScrollView嵌套ViewPager/" title="Android的坑之ScrollView嵌套ViewPager" itemprop="url">Android的坑之ScrollView嵌套ViewPager</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://hellsam.com" title="HellSam">HellSam</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-01-29T15:01:07.000Z" itemprop="datePublished">Jan 29 2015</time>
+    Updated:<time datetime="2015-01-29T17:43:41.000Z" itemprop="dateModified">Jan 30 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题描述"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案_1"><span class="toc-number">2.</span> <span class="toc-text">解决方案 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案_2"><span class="toc-number">3.</span> <span class="toc-text">解决方案 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案_3"><span class="toc-number">4.</span> <span class="toc-text">解决方案 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ByTheWay"><span class="toc-number">5.</span> <span class="toc-text">ByTheWay</span></a></li></ol>
+		</div>
+		
+		<h2 id="问题描述">问题描述</h2>
+<p>ScrollView里面嵌套ViewPager之后ViewPager中的内容无法显示</p>
+<p>如下图，下面的ViewPager中的内容无法显示</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/12.png" alt="Alt text"></p>
+<p>布局代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">LinearLayout</span> <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attribute">xmlns:tools</span>=<span class="value">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">    <span class="attribute">android:layout_height</span>=<span class="value">"match_parent"</span></div><div class="line">    <span class="attribute">android:orientation</span>=<span class="value">"vertical"</span> &gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="title">ScrollView</span></span></div><div class="line">        <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">        <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span> &gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="title">LinearLayout</span></span></div><div class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></div><div class="line">            <span class="attribute">android:orientation</span>=<span class="value">"vertical"</span> &gt;</div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="title">RelativeLayout</span></span></div><div class="line">                <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">                <span class="attribute">android:layout_height</span>=<span class="value">"350dp"</span></div><div class="line">                <span class="attribute">android:background</span>=<span class="value">"#0000FF"</span> &gt;</div><div class="line"></div><div class="line">                <span class="tag">&lt;<span class="title">TextView</span></span></div><div class="line">                    <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></div><div class="line">                    <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></div><div class="line">                    <span class="attribute">android:layout_centerInParent</span>=<span class="value">"true"</span></div><div class="line">                    <span class="attribute">android:text</span>=<span class="value">"很大一块内容 H:350dp"</span></div><div class="line">                    <span class="attribute">android:textColor</span>=<span class="value">"#FFFFFF"</span> /&gt;</div><div class="line">            <span class="tag">&lt;/<span class="title">RelativeLayout</span>&gt;</span></div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="title">LinearLayout</span></span></div><div class="line">                <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">                <span class="attribute">android:layout_height</span>=<span class="value">"30dp"</span></div><div class="line">                <span class="attribute">android:orientation</span>=<span class="value">"horizontal"</span> &gt;</div><div class="line"></div><div class="line">                <span class="tag">&lt;<span class="title">TextView</span></span></div><div class="line">                    <span class="attribute">android:layout_width</span>=<span class="value">"0dp"</span></div><div class="line">                    <span class="attribute">android:layout_height</span>=<span class="value">"match_parent"</span></div><div class="line">                    <span class="attribute">android:layout_weight</span>=<span class="value">"1"</span></div><div class="line">                    <span class="attribute">android:gravity</span>=<span class="value">"center"</span></div><div class="line">                    <span class="attribute">android:text</span>=<span class="value">"内容1"</span> /&gt;</div><div class="line"></div><div class="line">                <span class="tag">&lt;<span class="title">TextView</span></span></div><div class="line">                    <span class="attribute">android:layout_width</span>=<span class="value">"0dp"</span></div><div class="line">                    <span class="attribute">android:layout_height</span>=<span class="value">"match_parent"</span></div><div class="line">                    <span class="attribute">android:layout_weight</span>=<span class="value">"1"</span></div><div class="line">                    <span class="attribute">android:gravity</span>=<span class="value">"center"</span></div><div class="line">                    <span class="attribute">android:text</span>=<span class="value">"内容2"</span> /&gt;</div><div class="line"></div><div class="line">                <span class="tag">&lt;<span class="title">TextView</span></span></div><div class="line">                    <span class="attribute">android:layout_width</span>=<span class="value">"0dp"</span></div><div class="line">                    <span class="attribute">android:layout_height</span>=<span class="value">"match_parent"</span></div><div class="line">                    <span class="attribute">android:layout_weight</span>=<span class="value">"1"</span></div><div class="line">                    <span class="attribute">android:gravity</span>=<span class="value">"center"</span></div><div class="line">                    <span class="attribute">android:text</span>=<span class="value">"内容3"</span> /&gt;</div><div class="line">            <span class="tag">&lt;/<span class="title">LinearLayout</span>&gt;</span></div><div class="line"></div><div class="line">            <span class="tag">&lt;<span class="title">android.support.v4.view.ViewPager</span></span></div><div class="line">                <span class="attribute">android:id</span>=<span class="value">"@+id/viewPager"</span></div><div class="line">                <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">                <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span> /&gt;</div><div class="line">        <span class="tag">&lt;/<span class="title">LinearLayout</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="title">ScrollView</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="title">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+
+<h2 id="解决方案_1">解决方案 1</h2>
+<p>设置ViewPager为固定高度</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">android.support.v4.view.ViewPager</span></span></div><div class="line">    <span class="attribute">android:id</span>=<span class="value">"@+id/viewPager"</span></div><div class="line">    <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">    <span class="attribute">android:layout_height</span>=<span class="value">"200dp"</span> /&gt;</div></pre></td></tr></table></figure>
+
+<p>效果如下图</p>
+<p>ViewPager中的内容是已经显示出来了，但是内容1的高度是300dp，内容2的高度是500dp，内容3的高度800dp，现在只显示了200dp的高度显然是不满足我们的需求的</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/13.png" alt="Alt text"></p>
+<h2 id="解决方案_2">解决方案 2</h2>
+<p>重写ViewPager的onMeasure方法</p>
+<p>自定义ViewPager代码：</p>
+<figure class="highlight android"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.hellsam.scrollviewwithviewpager;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.support.v4.view.ViewPager;</div><div class="line"><span class="keyword">import</span> android.util.AttributeSet;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"></div><div class="line"><span class="javadoc">/**</span></div><div class="line"> * 自适应子View高度的viewPager</div><div class="line"> * </div><div class="line"> *<span class="javadoctag"> @author</span> hellsam</div><div class="line"> * </div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AutoHeightViewPager</span> <span class="keyword">extends</span> <span class="title">ViewPager</span> </span>{</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="title">AutoHeightViewPager</span>(Context context, AttributeSet attrs) {</div><div class="line">		<span class="keyword">super</span>(context, attrs);</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span>(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec) {</div><div class="line">		<span class="keyword">int</span> height = <span class="number">0</span>;</div><div class="line">		<span class="comment">// 下面遍历所有child的高度</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; getChildCount(); i++) {</div><div class="line">			View child = getChildAt(i);</div><div class="line">			child.measure(widthMeasureSpec,</div><div class="line">					MeasureSpec.makeMeasureSpec(<span class="number">0</span>, MeasureSpec.UNSPECIFIED));</div><div class="line">			<span class="keyword">int</span> h = child.getMeasuredHeight();</div><div class="line">			<span class="comment">// 采用最大的view的高度</span></div><div class="line">			<span class="keyword">if</span> (h &gt; height) {</div><div class="line">				height = h;</div><div class="line">			}</div><div class="line">		}</div><div class="line"></div><div class="line">		heightMeasureSpec = MeasureSpec.makeMeasureSpec(height,</div><div class="line">				MeasureSpec.EXACTLY);</div><div class="line"></div><div class="line">		<span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</div><div class="line">	}</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>使用自定义ViewPager </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">com.hellsam.scrollviewwithviewpager.AutoHeightViewPager</span></span></div><div class="line">     <span class="attribute">android:id</span>=<span class="value">"@+id/viewPager"</span></div><div class="line">     <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">     <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span> /&gt;</div></pre></td></tr></table></figure>
+
+<p>效果如下图：</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/14.png" alt="Alt text"></p>
+<p>这样在ViewPager onMeasure时就会设置子View中高度最高的View的高度作为ViewPager的高度</p>
+<p>这样的话，在我们的例子中最高的View是内容3高度为800dp，所有此时ViewPager的高度就是800dp</p>
+<p>而内容1的高度为300dp，这是我们就看到内容1下面还有一大片空白区域</p>
+<h2 id="解决方案_3">解决方案 3</h2>
+<p>动态修改ViewPager的高度, 子View初始化完成后或网络请求完成渲染完页面后，重置ViewPager的高度</p>
+<figure class="highlight android"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.hellsam.scrollviewwithviewpager;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.os.AsyncTask;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.support.v4.app.FragmentActivity;</div><div class="line"><span class="keyword">import</span> android.support.v4.view.ViewPager;</div><div class="line"><span class="keyword">import</span> android.support.v4.view.ViewPager.OnPageChangeListener;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.widget.LinearLayout;</div><div class="line"><span class="keyword">import</span> android.widget.LinearLayout.LayoutParams;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution3Activity</span> <span class="keyword">extends</span> <span class="title">FragmentActivity</span> </span>{</div><div class="line">	<span class="keyword">private</span> ViewPager viewPager;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> ViewPagerFragmentAdapter adapter;</div><div class="line">	<span class="keyword">private</span> MyListener listener = <span class="keyword">new</span> MyListener();</div><div class="line"></div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span>(Bundle savedInstanceState) {</div><div class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">		setContentView(R.layout.activity_solution3);</div><div class="line"></div><div class="line">		viewPager = (ViewPager) findViewById(R.id.viewPager);</div><div class="line">		adapter = <span class="keyword">new</span> ViewPagerFragmentAdapter(getSupportFragmentManager());</div><div class="line">		adapter.addFragment(<span class="keyword">new</span> Content1Fragment());</div><div class="line">		adapter.addFragment(<span class="keyword">new</span> Content2Fragment());</div><div class="line">		adapter.addFragment(<span class="keyword">new</span> Content3Fragment());</div><div class="line">		viewPager.setOffscreenPageLimit(<span class="number">3</span>);</div><div class="line">		viewPager.setOnPageChangeListener(listener);</div><div class="line">		viewPager.setAdapter(adapter);</div><div class="line"></div><div class="line">		<span class="comment">// 模拟网络请求完成之后重置ViewPager高度</span></div><div class="line">		<span class="keyword">new</span> myAsyncTask().execute();</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="javadoc">/**</span></div><div class="line">	 * 重新设置viewPager高度</div><div class="line">	 * </div><div class="line">	 *<span class="javadoctag"> @param</span> position</div><div class="line">	 */</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">resetViewPagerHeight</span>(<span class="keyword">int</span> position) {</div><div class="line">		View child = viewPager.getChildAt(position);</div><div class="line">		<span class="keyword">if</span> (child != <span class="keyword">null</span>) {</div><div class="line">			child.measure(<span class="number">0</span>, <span class="number">0</span>);</div><div class="line">			<span class="keyword">int</span> h = child.getMeasuredHeight();</div><div class="line">			LinearLayout.LayoutParams params = (LayoutParams) viewPager</div><div class="line">					.getLayoutParams();</div><div class="line">			params.height = h + <span class="number">50</span>;</div><div class="line">			viewPager.setLayoutParams(params);</div><div class="line">		}</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyListener</span> <span class="keyword">implements</span> <span class="title">OnPageChangeListener</span> </span>{</div><div class="line"></div><div class="line">		<span class="annotation">@Override</span></div><div class="line">		<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageScrollStateChanged</span>(<span class="keyword">int</span> arg0) {</div><div class="line"></div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="annotation">@Override</span></div><div class="line">		<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageScrolled</span>(<span class="keyword">int</span> position, <span class="keyword">float</span> positionOffset,</div><div class="line">				<span class="keyword">int</span> positionOffsetPixels) {</div><div class="line"></div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="annotation">@Override</span></div><div class="line">		<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageSelected</span>(<span class="keyword">int</span> position) {</div><div class="line">			<span class="comment">// 页面切换后重置ViewPager高度</span></div><div class="line">			resetViewPagerHeight(position);</div><div class="line">			<span class="keyword">switch</span> (position) {</div><div class="line">			<span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			<span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			<span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			}</div><div class="line">		}</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">myAsyncTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>, <span class="title">Void</span>, <span class="title">Void</span>&gt; </span>{</div><div class="line">		<span class="annotation">@Override</span></div><div class="line">		<span class="keyword">protected</span> Void <span class="title">doInBackground</span>(Void... params) {</div><div class="line">			<span class="keyword">try</span> {</div><div class="line">				Thread.sleep(<span class="number">1000</span>);</div><div class="line">			} <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">				e.printStackTrace();</div><div class="line">			}</div><div class="line">			<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="annotation">@Override</span></div><div class="line">		<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span>(Void result) {</div><div class="line">			resetViewPagerHeight(<span class="number">0</span>);</div><div class="line">		}</div><div class="line"></div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>取消方案2中设置的自定义ViewPager</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">android.support.v4.view.ViewPager</span></span></div><div class="line">    <span class="attribute">android:id</span>=<span class="value">"@+id/viewPager"</span></div><div class="line">    <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">    <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span> /&gt;</div></pre></td></tr></table></figure>
+
+<p>效果如下图</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/15.png" alt="Alt text"><br><img src="http://7u2ne2.com1.z0.glb.clouddn.com/16.png" alt="Alt text"><br><img src="http://7u2ne2.com1.z0.glb.clouddn.com/17.png" alt="Alt text"></p>
+<h2 id="ByTheWay">ByTheWay</h2>
+<p>当ScrollView在滑动后没有完全停止时，是无法左右滑动ViewPager，这可以通过重写ScrollView的方法来解决</p>
+<p>自定义ScrollView代码如下：</p>
+<figure class="highlight android"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.hellsam.scrollviewwithviewpager;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.lang.reflect.Field;</div><div class="line"><span class="keyword">import</span> java.lang.reflect.Method;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.content.Context;</div><div class="line"><span class="keyword">import</span> android.util.AttributeSet;</div><div class="line"><span class="keyword">import</span> android.util.Log;</div><div class="line"><span class="keyword">import</span> android.view.GestureDetector;</div><div class="line"><span class="keyword">import</span> android.view.GestureDetector.SimpleOnGestureListener;</div><div class="line"><span class="keyword">import</span> android.view.MotionEvent;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.webkit.WebView;</div><div class="line"><span class="keyword">import</span> android.widget.ScrollView;</div><div class="line"><span class="keyword">import</span> android.widget.Scroller;</div><div class="line"></div><div class="line"><span class="javadoc">/**</span></div><div class="line"> * 自定义ScrollView，解决：ScrollView嵌套ViewPager，导致ViewPager不能滑动的问题</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>{</div><div class="line">	<span class="keyword">private</span> GestureDetector mGestureDetector;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> Scroll_height = <span class="number">0</span>;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> view_height = <span class="number">0</span>;</div><div class="line">	<span class="keyword">protected</span> Field scrollView_mScroller;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"CustomScrollView"</span>;</div><div class="line"></div><div class="line">	<span class="keyword">public</span> <span class="title">CustomScrollView</span>(Context context, AttributeSet attrs) {</div><div class="line">		<span class="keyword">super</span>(context, attrs);</div><div class="line">		mGestureDetector = <span class="keyword">new</span> GestureDetector(context, <span class="keyword">new</span> YScrollDetector());</div><div class="line">		setFadingEdgeLength(<span class="number">0</span>);</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span>(MotionEvent ev) {</div><div class="line">		<span class="keyword">if</span> (ev.getAction() == MotionEvent.ACTION_DOWN) {</div><div class="line">			stopAnim();</div><div class="line">		}</div><div class="line">		<span class="keyword">boolean</span> ret = <span class="keyword">super</span>.onInterceptTouchEvent(ev);</div><div class="line">		<span class="keyword">boolean</span> ret2 = mGestureDetector.onTouchEvent(ev);</div><div class="line">		<span class="keyword">return</span> ret && ret2;</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="comment">// Return false if we're scrolling in the x direction</span></div><div class="line">	class YScrollDetector extends SimpleOnGestureListener {</div><div class="line">		<span class="annotation">@Override</span></div><div class="line">		<span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onScroll</span>(MotionEvent e1, MotionEvent e2,</div><div class="line">				<span class="keyword">float</span> distanceX, <span class="keyword">float</span> distanceY) {</div><div class="line">			<span class="keyword">if</span> (Math.abs(distanceY) &gt; Math.abs(distanceX)) {</div><div class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">			}</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">		}</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onScrollChanged</span>(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> oldl, <span class="keyword">int</span> oldt) {</div><div class="line">		<span class="keyword">boolean</span> stop = <span class="keyword">false</span>;</div><div class="line">		<span class="keyword">if</span> (Scroll_height - view_height == t) {</div><div class="line">			stop = <span class="keyword">true</span>;</div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="keyword">if</span> (t == <span class="number">0</span> || stop == <span class="keyword">true</span>) {</div><div class="line">			<span class="keyword">try</span> {</div><div class="line">				<span class="keyword">if</span> (scrollView_mScroller == <span class="keyword">null</span>) {</div><div class="line">					scrollView_mScroller = getDeclaredField(<span class="keyword">this</span>, <span class="string">"mScroller"</span>);</div><div class="line">				}</div><div class="line"></div><div class="line">				Object ob = scrollView_mScroller.get(<span class="keyword">this</span>);</div><div class="line">				<span class="keyword">if</span> (ob == <span class="keyword">null</span> || !(ob <span class="keyword">instanceof</span> Scroller)) {</div><div class="line">					<span class="keyword">return</span>;</div><div class="line">				}</div><div class="line">				Scroller sc = (Scroller) ob;</div><div class="line">				sc.abortAnimation();</div><div class="line"></div><div class="line">			} <span class="keyword">catch</span> (Exception e) {</div><div class="line">				Log.e(TAG, e.getMessage());</div><div class="line">			}</div><div class="line">		}</div><div class="line">		<span class="keyword">super</span>.onScrollChanged(l, t, oldl, oldt);</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">void</span> <span class="title">stopAnim</span>() {</div><div class="line">		<span class="keyword">try</span> {</div><div class="line">			<span class="keyword">if</span> (scrollView_mScroller == <span class="keyword">null</span>) {</div><div class="line">				scrollView_mScroller = getDeclaredField(<span class="keyword">this</span>, <span class="string">"mScroller"</span>);</div><div class="line">			}</div><div class="line"></div><div class="line">			Object ob = scrollView_mScroller.get(<span class="keyword">this</span>);</div><div class="line">			<span class="keyword">if</span> (ob == <span class="keyword">null</span>) {</div><div class="line">				<span class="keyword">return</span>;</div><div class="line">			}</div><div class="line">			Method method = ob.getClass().getMethod(<span class="string">"abortAnimation"</span>);</div><div class="line">			method.invoke(ob);</div><div class="line">		} <span class="keyword">catch</span> (Exception ex) {</div><div class="line">			Log.e(TAG, ex.getMessage());</div><div class="line">		}</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">computeVerticalScrollRange</span>() {</div><div class="line">		Scroll_height = <span class="keyword">super</span>.computeVerticalScrollRange();</div><div class="line">		<span class="keyword">return</span> Scroll_height;</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span>(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b) {</div><div class="line">		<span class="keyword">super</span>.onLayout(changed, l, t, r, b);</div><div class="line">		<span class="keyword">if</span> (changed == <span class="keyword">true</span>) {</div><div class="line">			view_height = b - t;</div><div class="line">		}</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">requestChildFocus</span>(View child, View focused) {</div><div class="line">		<span class="keyword">if</span> (focused != <span class="keyword">null</span> && focused <span class="keyword">instanceof</span> WebView) {</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		}</div><div class="line">		<span class="keyword">super</span>.requestChildFocus(child, focused);</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="javadoc">/**</span></div><div class="line">	 * 获取一个对象隐藏的属性，并设置属性为public属性允许直接访问</div><div class="line">	 * </div><div class="line">	 *<span class="javadoctag"> @return</span> {@link Field} 如果无法读取，返回null；返回的Field需要使用者自己缓存，本方法不做缓存�?</div><div class="line">	 */</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> Field <span class="title">getDeclaredField</span>(Object object, String field_name) {</div><div class="line">		Class&lt;?&gt; cla = object.getClass();</div><div class="line">		Field field = <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">for</span> (; cla != Object.class; cla = cla.getSuperclass()) {</div><div class="line">			<span class="keyword">try</span> {</div><div class="line">				field = cla.getDeclaredField(field_name);</div><div class="line">				field.setAccessible(<span class="keyword">true</span>);</div><div class="line">				<span class="keyword">return</span> field;</div><div class="line">			} <span class="keyword">catch</span> (Exception e) {</div><div class="line"></div><div class="line">			}</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><span style="color:#18DDDD"><strong>欢迎留言交流，如有描述不当或错误的地方还请留言告知</strong></span> </p>
+<p>本博客网址 <a href="http://www.hellsam.com" target="_blank" rel="external">hellsam.com</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/android/">Android</a><a href="/tags/坑/">坑</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://hellsam.com/2015/01/29/Android的坑之ScrollView嵌套ViewPager/" data-title="Android的坑之ScrollView嵌套ViewPager | 菜鸟的天堂——hellsam" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/01/23/NodeJS开发环境搭建(Windows版)/"  title="NodeJS开发环境搭建(Windows版)">
+ <strong>NEXT:</strong><br/> 
+ <span>NodeJS开发环境搭建(Windows版)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	
+	<div class="ds-thread" data-title="Android的坑之ScrollView嵌套ViewPager" data-thread-key="Android的坑之ScrollView嵌套ViewPager" data-author-key="HellSam" data-url="http://hellsam.com/post/Android的坑之ScrollView嵌套ViewPager"></div>
+	
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题描述"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案_1"><span class="toc-number">2.</span> <span class="toc-text">解决方案 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案_2"><span class="toc-number">3.</span> <span class="toc-text">解决方案 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解决方案_3"><span class="toc-number">4.</span> <span class="toc-text">解决方案 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ByTheWay"><span class="toc-number">5.</span> <span class="toc-text">ByTheWay</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-logo"></div>		
+	
+	<div class="social-list" class="clearfix">
+		
+		
+		
+		
+		
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="Android">Android<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/SenchaTouch2/" title="SenchaTouch2">SenchaTouch2<sup>1</sup></a></li>
+		
+			<li><a href="/categories/others/" title="others">others<sup>0</sup></a></li>
+		
+			<li><a href="/categories/others/" title="其他">其他<sup>0</sup></a></li>
+		
+			<li><a href="/categories/技术/" title="技术">技术<sup>0</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/android/" title="Android">Android<sup>1</sup></a></li>
+		
+			<li><a href="/tags/NodeJS/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>0</sup></a></li>
+		
+			<li><a href="/tags/sencha-touch/" title="sencha touch">sencha touch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/坑/" title="坑">坑<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://blog.csdn.net/qp23401" target="_blank" title="CSDN">CSDN Blog</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+    
+            <p class="copyright"> © 2015 
+		
+		<a href="http://hellsam.com" target="_blank" title="HellSam">HellSam</a>
+		
+            && Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> && Theme by <a href="http://gengbiao.me" target="_blank" title="coney">coney</a>
+            </div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"hellsam"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+<script>
+    
+        var _bdImg = '4';
+    
+    window._bd_share_config={
+        "common":{
+            "bdSnsKey":{
+
+            },
+            "bdText":"",
+            "bdMini":"2",
+            "bdMiniList":[
+                "qzone",
+                "tsina",
+                "weixin",
+                "renren",
+                "tqq",
+                "tieba",
+                "douban",
+                "sqq",
+                "diandian",
+                "huaban",
+                "youdao",
+                "mail",
+                "ty",
+                "fbook",
+                "twi",
+                "linkedin",
+                "copy",
+                "print"
+            ],
+            "bdPic":"",
+            "bdStyle":"0",
+            "bdSize":"16"
+        },
+        "slide":{
+            "type":"slide",
+            "bdImg":_bdImg,
+            "bdPos":"right",
+            "bdTop":"350"
+        },
+        "image":{
+            "viewList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ],
+            "viewText":"分享：",
+            "viewSize":"16"
+        },
+        "selectShare":{
+            "bdContainerClass":null,
+            "bdSelectMiniList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ]
+        }
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
+
