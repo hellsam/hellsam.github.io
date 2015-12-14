@@ -1,0 +1,540 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu_union_verify" content="d1952c66cf48912e21c18c7c581f382a">
+  <meta name="360-site-verification" content="67fbcc5a67f4c65c057315b28fa0b2c8" />
+<meta name="google-site-verification" content="2GzxQ0VtXwTSUdmGm6DzcmhTzM_I9QmzCb_pzpMzD88" />
+  
+    <title>一步一步教你刷【极客学院VIP会员】（二）之抓包分析 | 菜鸟的天堂——hellsam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="HellSam">
+    
+    <meta name="description" content="准备工作
+还没有看过《一步一步教你刷【极客学院VIP会员】（一）之原理分析》的读者，请先移步到这里。
+先注册好一个极客学院的账号，然后进入到http://e.jikexueyuan.com/invite/invite.html
+
+小编使用的测试浏览器是Chrome 版本 46.0.2490.86 (">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="菜鸟的天堂——hellsam" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            var _bdId ='ab7f3e6552e292b9130dc7bd93c9d260';
+             hm.src = "//hm.baidu.com/hm.js?" + _bdId;
+             var s = document.getElementsByTagName("script")[0]; 
+             s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+     
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="菜鸟的天堂——hellsam">菜鸟的天堂——hellsam</a></h1>
+				<a class="blog-motto">一步两步一步两步，似大神的步伐</a>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/android">Android</a></li>
+					
+						<li><a href="/categories/nodejs">NodeJS</a></li>
+					
+						<li><a href="/categories/hack">Hack</a></li>
+					
+						<li><a href="/categories/others">Others</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:hellsam.com">
+					</form>
+					
+					</li>
+				</ul>
+                            </nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/12/14/教你刷极客学院VIP会员（二）之抓包分析/" title="一步一步教你刷【极客学院VIP会员】（二）之抓包分析" itemprop="url">一步一步教你刷【极客学院VIP会员】（二）之抓包分析</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://hellsam.com" title="HellSam">HellSam</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-12-14T10:43:19.000Z" itemprop="datePublished">Dec 14 2015</time>
+    Updated:<time datetime="2015-12-14T10:43:19.000Z" itemprop="dateModified">Dec 14 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始着手"><span class="toc-number">2.</span> <span class="toc-text">开始着手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#走一遍正常邀请小伙伴的流程"><span class="toc-number">2.1.</span> <span class="toc-text">走一遍正常邀请小伙伴的流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那这个邀请码是从哪里来的呢？？？"><span class="toc-number">2.2.</span> <span class="toc-text">那这个邀请码是从哪里来的呢？？？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结一下"><span class="toc-number">3.</span> <span class="toc-text">总结一下</span></a></li></ol>
+		</div>
+		
+		<h2 id="准备工作">准备工作</h2>
+<p><strong>还没有看过<a href="http://hellsam.com/2015/12/14/%E6%95%99%E4%BD%A0%E5%88%B7%E6%9E%81%E5%AE%A2%E5%AD%A6%E9%99%A2VIP%E4%BC%9A%E5%91%98%EF%BC%88%E4%B8%80%EF%BC%89%E4%B9%8B%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" target="_blank" rel="external">《一步一步教你刷【极客学院VIP会员】（一）之原理分析》</a>的读者，请先移步到<a href="http://hellsam.com/2015/12/14/%E6%95%99%E4%BD%A0%E5%88%B7%E6%9E%81%E5%AE%A2%E5%AD%A6%E9%99%A2VIP%E4%BC%9A%E5%91%98%EF%BC%88%E4%B8%80%EF%BC%89%E4%B9%8B%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/" target="_blank" rel="external">这里</a>。</strong></p>
+<p>先注册好一个<a href="http://www.jikexueyuan.com/" target="_blank" rel="external">极客学院</a>的账号，然后进入到<a href="http://e.jikexueyuan.com/invite/invite.html" target="_blank" rel="external">http://e.jikexueyuan.com/invite/invite.html</a></p>
+<blockquote>
+<p>小编使用的测试浏览器是Chrome 版本 46.0.2490.86 (64-bit)</p>
+</blockquote>
+<h2 id="开始着手">开始着手</h2>
+<p><a href="http://e.jikexueyuan.com/invite/invite.html" target="_blank" rel="external">http://e.jikexueyuan.com/invite/invite.html</a> 页面截图：</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/jikexueyuan_01.png" alt="http://7u2ne2.com1.z0.glb.clouddn.com/jikexueyuan_01.png"></p>
+<h3 id="走一遍正常邀请小伙伴的流程">走一遍正常邀请小伙伴的流程</h3>
+<ul>
+<li><p><a href="http://e.jikexueyuan.com/invite/index.html?ZnJvbV9jb2RlPVZTUlU1MCZ1bmFtZT1oZWxsc2FtJmNoYW5uZWw9aW52aXRlX3NoYXJlYnV0dG9uX2RpcmVjdDA0" target="_blank" rel="external">http://e.jikexueyuan.com/invite/index.html?ZnJvbV9jb2RlPVZTUlU1MCZ1bmFtZT1oZWxsc2FtJmNoYW5uZWw9aW52aXRlX3NoYXJlYnV0dG9uX2RpcmVjdDA0</a>不管是通过第三方平台分享或者直接复制得到有用内容都是上面的一个链接。</p>
+</li>
+<li><p>打开上面的链接就进入到注册页面了，如图:</p>
+</li>
+</ul>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/jikexueyuan_04.png" alt=""></p>
+<ul>
+<li>随便填一个手机号码，手机验证码也随便填，开好chrome的网络调试工具，点击注册，抓包得到的请求信息如下图：</li>
+</ul>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/jikexueyuan_05.png" alt=""></p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/jikexueyuan_06.png" alt=""></p>
+<p>我们可以看到请求的地址是：<br><code>http://passport.jikexueyuan.com/submit/reg_phone</code></p>
+<p>参数有：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">jsoncallback:jQuery21305480092712678015_1450081324705 <span class="comment">//可无视，可以不传</span></div><div class="line">is_ajax:<span class="number">1</span> <span class="comment">//固定内容，写死就行</span></div><div class="line">phone:<span class="number">13787876566</span> <span class="comment">//注册的手机号码，飞码接口得到的手机号码</span></div><div class="line">verify_code:<span class="number">123123</span> <span class="comment">//短信验证码，飞码接口接收到的短信验证码</span></div><div class="line">password: <span class="comment">//密码，自己设定</span></div><div class="line">verify:<span class="number">0631</span> <span class="comment">//图形验证码，云速接口识别</span></div><div class="line">event:friend_code <span class="comment">//固定内容，写死就好</span></div><div class="line">from_code:VSRU50 <span class="comment">//这就是我们寻寻觅觅的邀请码，还不知道怎么得到</span></div><div class="line">refrere:http:<span class="comment">//e.jikexueyuan.com/invite/index.html?ZnJvbV9jb2RlPVZTUlU1MCZ1bmFtZT1oZWxsc2FtJmNoYW5uZWw9aW52aXRlXzEwMHdfc2hhcmVidXR0b25fY29weTE= </span></div><div class="line"><span class="comment">//邀请的地址，就是我们之前打开进入注册页面的地址，还不知道怎么得到</span></div><div class="line">client:www <span class="comment">//无视，可以不传</span></div><div class="line">_:<span class="number">1450081324713</span> <span class="comment">//无视，可以不传</span></div></pre></td></tr></table></figure>
+
+<p>通过程序员的直觉分析，<code>from_code</code>就是所谓的邀请码，是跟用户账号一一对应的。</p>
+<h3 id="那这个邀请码是从哪里来的呢？？？">那这个邀请码是从哪里来的呢？？？</h3>
+<p>于是乎，小编又去请求了一遍<a href="http://e.jikexueyuan.com/invite/index.html?ZnJvbV9jb2RlPVZTUlU1MCZ1bmFtZT1oZWxsc2FtJmNoYW5uZWw9aW52aXRlX3NoYXJlYnV0dG9uX2RpcmVjdDA0" target="_blank" rel="external">http://e.jikexueyuan.com/invite/index.html?ZnJvbV9jb2RlPVZTUlU1MCZ1bmFtZT1oZWxsc2FtJmNoYW5uZWw9aW52aXRlX3NoYXJlYnV0dG9uX2RpcmVjdDA0</a>，通过抓包查看各种返回信息，又查看网页源代码，依然未能发现<code>VSRU50</code>的踪迹。</p>
+<p>正当迷惑不解的时候，喝了一瓶<code>AD钙奶</code>，顿时思如泉涌^_^</p>
+<p>想到在邀请页面不管是通过第三方分享还是直接复制得到最终有用信息都只是一个链接。因此通过程序员第六感判断，邀请码信息肯定藏在这个链接中。此时我注意到了链接后面的一长串内容</p>
+<p><code>ZnJvbV9jb2RlPVZTUlU1MCZ1bmFtZT1oZWxsc2FtJmNoYW5uZWw9aW52aXRlX3NoYXJlYnV0dG9uX2RpcmVjdDA0</code></p>
+<p>这一看就知道是Base64加密的，不要问我是怎么知道的^_^</p>
+<p>赶紧找一个Base64在线解密网站<a href="http://www1.tc711.com/tool/BASE64.htm" target="_blank" rel="external">http://www1.tc711.com/tool/BASE64.htm</a>,（随便百度到的，这样的网站很多）, 解码结果如下图：</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/jikexueyuan_07.png" alt=""></p>
+<p><code>from_code=VSRU50&amp;uname=hellsam&amp;channel=invite_sharebutton_direct04</code></p>
+<p>终于见到熟悉的<code>VSRU50</code>，此时就如梦中情人突然出现了在你的面前般的兴奋。</p>
+<p>这几个参数也都比较好理解</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">from_code=VSRU50 <span class="comment">//邀请码</span></div><div class="line">uname=hellsam  <span class="comment">//邀请人的用户名</span></div><div class="line">channel=invite_sharebutton_direct04  <span class="comment">//固定内容</span></div></pre></td></tr></table></figure>
+
+<p>此时，隐隐的觉得好像哪里不太多，邀请码是通过解密链接中的加密内容得到的，链接中的加密内容又是邀请码和用户名等信息加密得到的，好像进入死循环了@_@</p>
+<p>真是百思不得其姐~</p>
+<p>再重新理一下思路，后台应该是新用户注册了，就会为该用户生成一个唯一的邀请码，此时就有两种猜想：</p>
+<ul>
+<li><p>后台传到前端的就是链接后面的<code>ZnJvbV9jb2RlPVZTUlU1MCZ1bmFtZT1oZWxsc2FtJmNoYW5uZWw9aW52aXRlX3NoYXJlYnV0dG9uX2RpcmVjdDA0</code>这段内容。</p>
+</li>
+<li><p>后台传到前端的是<code>from_code=VSRU50&amp;uname=hellsam&amp;channel=invite_sharebutton_direct04</code>这些内容，再加密成链接给用户看到的。</p>
+</li>
+</ul>
+<p>根据程序员的第六感判断，第二种应该更靠谱一些，所以优先尝试第二种。</p>
+<p>下面抓下登录的包看看，返回的信息里面有没有我们要的信息。抓包截图如下(记得勾上Preserve log不然页面跳转了之前的记录就没有了)：</p>
+<p>请求地址：</p>
+<p><code>POST</code> <code>http://passport.jikexueyuan.com/submit/login?is_ajax=1&amp;client=www</code></p>
+<p>请求参数：</p>
+<p><code>expire=7&amp;referer=http%3A%2F%2Fwww.jikexueyuan.com%2F&amp;uname=hellsam&amp;password=xxxxxx&amp;verify=1392</code></p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/jikexueyuan_09.png" alt=""></p>
+<p>注意Response Headers里面的信息，里面<code>uname</code>、<code>code</code>都有，终于所有需要的信息都可以得到了✌️</p>
+<p>经过实践，注册成功的Response Headers里面同样有这些信息，那么只要注册成功后把邀请码和用户名存起来，之后邀请链接后面的一串加密内容也可以通过邀请码和用户加密得到了。</p>
+<h2 id="总结一下">总结一下</h2>
+<ul>
+<li>每个账号注册成功后，把获取到的用户名和邀请码保存起来</li>
+</ul>
+<p>那么注册接口里面的参数就都能获取到了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">jsoncallback:jQuery21305480092712678015_1450081324705 <span class="comment">//可无视，不用传</span></div><div class="line">is_ajax:<span class="number">1</span> <span class="comment">//固定内容，保持一致就行</span></div><div class="line">phone:<span class="number">13787876566</span> <span class="comment">//注册的手机号码，飞码获取的手机号码</span></div><div class="line">verify_code:<span class="number">123123</span> <span class="comment">//短信验证码， 飞码获取的短信验证码</span></div><div class="line">password: <span class="comment">//密码，可以随机生成密码，也可固定一个</span></div><div class="line">verify:<span class="number">0631</span> <span class="comment">//图形验证码， 用云速识别</span></div><div class="line">event:friend_code <span class="comment">//固定内容， 保持一致就行</span></div><div class="line">from_code:VSRU50 <span class="comment">//这就是我们寻寻觅觅的邀请码，已经存下了</span></div><div class="line">refrere:http:<span class="comment">//e.jikexueyuan.com/invite/index.html?ZnJvbV9jb2RlPVZTUlU1MCZ1bmFtZT1oZWxsc2FtJmNoYW5uZWw9aW52aXRlXzEwMHdfc2hhcmVidXR0b25fY29weTE= </span></div><div class="line"><span class="comment">//邀请的地址，就是我们之前打开进入注册页面的地址，后面这段`from_code=邀请码&uname=用户名&channel=invite_sharebutton_direct04`Base64加密这段信息就能得到了</span></div><div class="line">client:www <span class="comment">//无视</span></div><div class="line">_:<span class="number">1450081324713</span> <span class="comment">//无视</span></div></pre></td></tr></table></figure>
+
+<p>这时，我们可以判断，这个方案是可行的，接下来就差代码实现了^_^</p>
+<blockquote>
+<p>本文只做纯粹的技术探讨。</p>
+</blockquote>
+<p><strong>敬请期待《一步一步教你刷【极客学院VIP会员】（三）之代码实现》</strong></p>
+<p>因本文内容具有一定时效性（当极客学院网站有改动后，本文方案可能就无效了），所以还请正在阅读本文的你如果发现本文方案已失效，在评论区提醒小编和其他读者，万分感谢！</p>
+<p><span style="color:#18DDDD"><strong>欢迎留言交流，如有描述不当或错误的地方还请留言告知。</strong></span> </p>
+<p><strong>自建博客：</strong> <a href="http://hellsam.com/" target="_blank" rel="external">http://hellsam.com/</a></p>
+<p><strong>CSDN博客：</strong> <a href="http://blog.csdn.net/qp23401" target="_blank" rel="external">http://blog.csdn.net/qp23401</a></p>
+<p><strong>简书博客：</strong> <a href="http://www.jianshu.com/users/8af058e7d824/latest_articles" target="_blank" rel="external">http://www.jianshu.com/users/8af058e7d824/latest_articles</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/hack/">hack</a><a href="/tags/抓包/">抓包</a><a href="/tags/破解/">破解</a><a href="/tags/Geek/">Geek</a><a href="/tags/极客学院/">极客学院</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/hack/">hack</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://hellsam.com/2015/12/14/教你刷极客学院VIP会员（二）之抓包分析/" data-title="一步一步教你刷【极客学院VIP会员】（二）之抓包分析 | 菜鸟的天堂——hellsam" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/12/14/教你刷极客学院VIP会员（一）之原理分析/"  title="一步一步教你刷【极客学院VIP会员】（一）之原理分析">
+ <strong>NEXT:</strong><br/> 
+ <span>一步一步教你刷【极客学院VIP会员】（一）之原理分析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	
+	<div class="ds-thread" data-title="一步一步教你刷【极客学院VIP会员】（二）之抓包分析" data-thread-key="教你刷极客学院VIP会员（二）之抓包分析" data-author-key="HellSam" data-url="http://hellsam.com/post/教你刷极客学院VIP会员（二）之抓包分析"></div>
+	
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始着手"><span class="toc-number">2.</span> <span class="toc-text">开始着手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#走一遍正常邀请小伙伴的流程"><span class="toc-number">2.1.</span> <span class="toc-text">走一遍正常邀请小伙伴的流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#那这个邀请码是从哪里来的呢？？？"><span class="toc-number">2.2.</span> <span class="toc-text">那这个邀请码是从哪里来的呢？？？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结一下"><span class="toc-number">3.</span> <span class="toc-text">总结一下</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-logo"></div>		
+	
+	<div class="social-list" class="clearfix">
+		
+		
+		
+		
+		
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="Android">Android<sup>2</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/others/" title="Others">Others<sup>2</sup></a></li>
+		
+			<li><a href="/categories/SenchaTouch2/" title="SenchaTouch2">SenchaTouch2<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/android/" title="Android">Android<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Geek/" title="Geek">Geek<sup>2</sup></a></li>
+		
+			<li><a href="/tags/NodeJS/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+			<li><a href="/tags/sencha-touch/" title="sencha touch">sencha touch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/坑/" title="坑">坑<sup>1</sup></a></li>
+		
+			<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+		
+			<li><a href="/tags/极客学院/" title="极客学院">极客学院<sup>2</sup></a></li>
+		
+			<li><a href="/tags/游戏/" title="游戏">游戏<sup>1</sup></a></li>
+		
+			<li><a href="/tags/破解/" title="破解">破解<sup>2</sup></a></li>
+		
+			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://blog.csdn.net/qp23401" target="_blank" title="CSDN">CSDN Blog</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+    
+            <p class="copyright"> © 2015 
+		
+		<a href="http://hellsam.com" target="_blank" title="HellSam">HellSam</a>
+		
+            && Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> && Theme by <a href="http://gengbiao.me" target="_blank" title="coney">coney</a>
+            </div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"hellsam"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+<script>
+    
+        var _bdImg = '4';
+    
+    window._bd_share_config={
+        "common":{
+            "bdSnsKey":{
+
+            },
+            "bdText":"",
+            "bdMini":"2",
+            "bdMiniList":[
+                "qzone",
+                "tsina",
+                "weixin",
+                "renren",
+                "tqq",
+                "tieba",
+                "douban",
+                "sqq",
+                "diandian",
+                "huaban",
+                "youdao",
+                "mail",
+                "ty",
+                "fbook",
+                "twi",
+                "linkedin",
+                "copy",
+                "print"
+            ],
+            "bdPic":"",
+            "bdStyle":"0",
+            "bdSize":"16"
+        },
+        "slide":{
+            "type":"slide",
+            "bdImg":_bdImg,
+            "bdPos":"right",
+            "bdTop":"350"
+        },
+        "image":{
+            "viewList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ],
+            "viewText":"分享：",
+            "viewSize":"16"
+        },
+        "selectShare":{
+            "bdContainerClass":null,
+            "bdSelectMiniList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ]
+        }
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
+
