@@ -1,0 +1,537 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu_union_verify" content="d1952c66cf48912e21c18c7c581f382a">
+  <meta name="360-site-verification" content="67fbcc5a67f4c65c057315b28fa0b2c8" />
+<meta name="google-site-verification" content="2GzxQ0VtXwTSUdmGm6DzcmhTzM_I9QmzCb_pzpMzD88" />
+  
+    <title>Android画个颜色渐变的圆环玩玩 | 菜鸟的天堂——hellsam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="HellSam">
+    
+    <meta name="description" content="先看下最终的效果
+
+开始实现
+新建一个DoughnutView继承View
+123public class DoughnutView extends View {}
+
+先重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里
+1234567891011121314">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="菜鸟的天堂——hellsam" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            var _bdId ='ab7f3e6552e292b9130dc7bd93c9d260';
+             hm.src = "//hm.baidu.com/hm.js?" + _bdId;
+             var s = document.getElementsByTagName("script")[0]; 
+             s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+     
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="菜鸟的天堂——hellsam">菜鸟的天堂——hellsam</a></h1>
+				<a class="blog-motto">一步两步一步两步，似大神的步伐</a>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/android">Android</a></li>
+					
+						<li><a href="/categories/nodejs">NodeJS</a></li>
+					
+						<li><a href="/categories/hack">Hack</a></li>
+					
+						<li><a href="/categories/others">Others</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:hellsam.com">
+					</form>
+					
+					</li>
+				</ul>
+                            </nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/12/21/Android画个圆环玩玩/" title="Android画个颜色渐变的圆环玩玩" itemprop="url">Android画个颜色渐变的圆环玩玩</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://hellsam.com" title="HellSam">HellSam</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-12-21T09:48:33.000Z" itemprop="datePublished">Dec 21 2015</time>
+    Updated:<time datetime="2015-12-21T09:48:33.000Z" itemprop="dateModified">Dec 21 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#先看下最终的效果"><span class="toc-number">1.</span> <span class="toc-text">先看下最终的效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始实现"><span class="toc-number">2.</span> <span class="toc-text">开始实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#新建一个DoughnutView继承View"><span class="toc-number">2.0.1.</span> <span class="toc-text">新建一个DoughnutView继承View</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#先重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里"><span class="toc-number">2.0.2.</span> <span class="toc-text">先重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下面就是最重要的重写onDraw方法，大致流程如下"><span class="toc-number">2.0.3.</span> <span class="toc-text">下面就是最重要的重写onDraw方法，大致流程如下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动画效果的实现"><span class="toc-number">2.0.4.</span> <span class="toc-text">动画效果的实现</span></a></li></ol></li></ol></li></ol>
+		</div>
+		
+		<h2 id="先看下最终的效果">先看下最终的效果</h2>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_01.gif" alt=""></p>
+<h2 id="开始实现">开始实现</h2>
+<h4 id="新建一个DoughnutView继承View">新建一个DoughnutView继承View</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DoughnutView</span> <span class="keyword">extends</span> <span class="title">View</span> </span>{</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h4 id="先重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里">先重写<code>onMeasure</code>方法，为什么要重写<code>onMeasure</code>方法可以看我的上一篇文章，点<a href="http://hellsam.com/2015/12/09/Android%E7%94%BB%E4%B8%AA%E6%97%B6%E9%92%9F%E7%8E%A9%E7%8E%A9/" target="_blank" rel="external">这里</a></h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="javadoc">/**</span></div><div class="line">    * 当布局为wrap_content时设置默认长宽</div><div class="line">    *</div><div class="line">    *<span class="javadoctag"> @param</span> widthMeasureSpec</div><div class="line">    *<span class="javadoctag"> @param</span> heightMeasureSpec</div><div class="line">    */</div><div class="line">   <span class="annotation">@Override</span></div><div class="line">   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span>(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec) {</div><div class="line">       setMeasuredDimension(measure(widthMeasureSpec), measure(heightMeasureSpec));</div><div class="line">   }</div><div class="line"></div><div class="line">   <span class="keyword">private</span> <span class="keyword">int</span> <span class="title">measure</span>(<span class="keyword">int</span> origin) {</div><div class="line">       <span class="keyword">int</span> result = DEFAULT_MIN_WIDTH;</div><div class="line">       <span class="keyword">int</span> specMode = MeasureSpec.getMode(origin);</div><div class="line">       <span class="keyword">int</span> specSize = MeasureSpec.getSize(origin);</div><div class="line">       <span class="keyword">if</span> (specMode == MeasureSpec.EXACTLY) {</div><div class="line">           result = specSize;</div><div class="line">       } <span class="keyword">else</span> {</div><div class="line">           <span class="keyword">if</span> (specMode == MeasureSpec.AT_MOST) {</div><div class="line">               result = Math.min(result, specSize);</div><div class="line">           }</div><div class="line">       }</div><div class="line">       <span class="keyword">return</span> result;</div><div class="line">   }</div></pre></td></tr></table></figure>
+
+<h4 id="下面就是最重要的重写onDraw方法，大致流程如下">下面就是最重要的重写<code>onDraw</code>方法，大致流程如下</h4>
+<ol>
+<li>画白色圆环(背景)，<strong>记得改下Activity背景色不然白色圆环看不出来</strong>。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//画背景白色圆环</span></div><div class="line">initPaint();</div><div class="line"><span class="keyword">float</span> doughnutWidth = Math.min(width, height) / <span class="number">2</span> * <span class="number">0.15</span>f;</div><div class="line">paint.setStrokeWidth(doughnutWidth);</div><div class="line">paint.setStyle(Paint.Style.STROKE);</div><div class="line">paint.setColor(Color.WHITE);</div><div class="line">paint.setAntiAlias(<span class="keyword">true</span>);</div><div class="line">RectF rectF = <span class="keyword">new</span> RectF((width &gt; height ? Math.abs(width - height) / <span class="number">2</span> : <span class="number">0</span>) + doughnutWidth / <span class="number">2</span>, (height &gt; width ? Math.abs(height - width) / <span class="number">2</span> : <span class="number">0</span>) + doughnutWidth / <span class="number">2</span>, width - (width &gt; height ? Math.abs(width - height) / <span class="number">2</span> : <span class="number">0</span>) - doughnutWidth / <span class="number">2</span>, height - (height &gt; width ? Math.abs(height - width) / <span class="number">2</span> : <span class="number">0</span>) - doughnutWidth / <span class="number">2</span>);</div><div class="line">canvas.drawArc(rectF, <span class="number">0</span>, <span class="number">360</span>, <span class="keyword">false</span>, paint);</div></pre></td></tr></table></figure>
+
+<ol>
+<li><p>画彩色圆环</p>
+<p> 使用<code>SweepGradient</code>来实现圆环渐变的效果，这里有个判断当设置的颜色数组只有一个颜色的时候，直接’setColor’，有多个颜色才使用<code>SweepGradient</code>实现渐变色。这样就能既支持渐变色又支持单色。</p>
+<p> 这里还有一点要注意，<code>SweepGradient</code>默认是从3点钟位置开始渐变的，为了能让它从12点钟位置开始渐变所以将画布旋转了-90°。</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//画彩色圆环</span></div><div class="line">initPaint();</div><div class="line">canvas.rotate(-<span class="number">90</span>, width / <span class="number">2</span>, height / <span class="number">2</span>);</div><div class="line">paint.setStrokeWidth(doughnutWidth);</div><div class="line">paint.setStyle(Paint.Style.STROKE);</div><div class="line"><span class="keyword">if</span> (doughnutColors.length &gt; <span class="number">1</span>) {</div><div class="line">    paint.setShader(<span class="keyword">new</span> SweepGradient(width / <span class="number">2</span>, height / <span class="number">2</span>, doughnutColors, <span class="keyword">null</span>));</div><div class="line">} <span class="keyword">else</span> {</div><div class="line">    paint.setColor(doughnutColors[<span class="number">0</span>]);</div><div class="line">}</div><div class="line">canvas.drawArc(rectF, <span class="number">0</span>, currentValue, <span class="keyword">false</span>, paint);</div></pre></td></tr></table></figure>
+
+<ol>
+<li>画中间数值的白色背景(只是为了让数值显示更明显一些)</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//画中间数值的背景</span></div><div class="line"><span class="keyword">int</span> fontSize = <span class="number">50</span>;</div><div class="line">initPaint();</div><div class="line">paint.setStyle(Paint.Style.FILL);</div><div class="line">paint.setColor(Color.WHITE);</div><div class="line">canvas.drawCircle(width / <span class="number">2</span>, height / <span class="number">2</span>, fontSize * <span class="number">2</span>, paint);}</div></pre></td></tr></table></figure>
+
+<ol>
+<li>画中间数值</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//画中间数值</span></div><div class="line">canvas.rotate(<span class="number">90</span>, width / <span class="number">2</span>, height / <span class="number">2</span>);</div><div class="line">initPaint();</div><div class="line">paint.setColor(ColorUtils.getCurrentColor(currentValue / <span class="number">360</span>f, doughnutColors));</div><div class="line">paint.setTextSize(fontSize);</div><div class="line">paint.setTextAlign(Paint.Align.CENTER);</div><div class="line"><span class="keyword">float</span> baseLine = height / <span class="number">2</span> - (paint.getFontMetrics().descent + paint.getFontMetrics().ascent) / <span class="number">2</span>;</div><div class="line">canvas.drawText((<span class="keyword">int</span>) (currentValue / <span class="number">360</span>f * <span class="number">100</span>) + <span class="string">"%"</span>, width / <span class="number">2</span>, baseLine, paint);</div></pre></td></tr></table></figure>
+
+<p>这里有两点比较坑：</p>
+<ol>
+<li><p>数值的颜色</p>
+<p> 要实现的效果是让数值的颜色是跟彩色圆环终点的颜色是一样的。寻寻觅觅很久也没有找到获取<code>SweepGradient</code>渲染到某一个角度时颜色的方法=_=</p>
+<p> 最终花了差不多半天时间写了个颜色渐变算法，代码如下：</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="javadoc">/**</span></div><div class="line"> * 颜色渐变算法</div><div class="line"> * 获取某个百分比下的渐变颜色值</div><div class="line"> *</div><div class="line"> *<span class="javadoctag"> @param</span> percent</div><div class="line"> *<span class="javadoctag"> @param</span> colors</div><div class="line"> *<span class="javadoctag"> @return</span></div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getCurrentColor</span>(<span class="keyword">float</span> percent, <span class="keyword">int</span>[] colors) {</div><div class="line">    <span class="keyword">float</span>[][] f = <span class="keyword">new</span> <span class="keyword">float</span>[colors.length][<span class="number">3</span>];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; colors.length; i++) {</div><div class="line">        f[i][<span class="number">0</span>] = (colors[i] & <span class="number">0xff0000</span>) &gt;&gt; <span class="number">16</span>;</div><div class="line">        f[i][<span class="number">1</span>] = (colors[i] & <span class="number">0x00ff00</span>) &gt;&gt; <span class="number">8</span>;</div><div class="line">        f[i][<span class="number">2</span>] = (colors[i] & <span class="number">0x0000ff</span>);</div><div class="line">    }</div><div class="line">    <span class="keyword">float</span>[] result = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">3</span>];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) {</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; f.length; j++) {</div><div class="line">            <span class="keyword">if</span> (f.length == <span class="number">1</span> || percent == j / (f.length - <span class="number">1</span>f)) {</div><div class="line">                result = f[j];</div><div class="line">            } <span class="keyword">else</span> {</div><div class="line">                <span class="keyword">if</span> (percent &gt; j / (f.length - <span class="number">1</span>f) && percent &lt; (j + <span class="number">1</span>f) / (f.length - <span class="number">1</span>)) {</div><div class="line">                    result[i] = f[j][i] - (f[j][i] - f[j + <span class="number">1</span>][i]) * (percent - j / (f.length - <span class="number">1</span>f)) * (f.length - <span class="number">1</span>f);</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> Color.rgb((<span class="keyword">int</span>) result[<span class="number">0</span>], (<span class="keyword">int</span>) result[<span class="number">1</span>], (<span class="keyword">int</span>) result[<span class="number">2</span>]);</div><div class="line">}</div></pre></td></tr></table></figure>
+
+
+<ol>
+<li><p>数值居中对齐问题</p>
+<p> <code>drawText</code>是根据baseLine来定位的。具体可以看下下面两篇文章的分析：<a href="http://sd4886656.iteye.com/blog/1200890" target="_blank" rel="external">文章一</a>、<a href="http://blog.csdn.net/hursing/article/details/18703599" target="_blank" rel="external">文章二</a>。数字跟文字字母的居中方式可能还略有不同。</p>
+</li>
+</ol>
+<h4 id="动画效果的实现">动画效果的实现</h4>
+<p>先上代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span>(<span class="keyword">float</span> value) {</div><div class="line">ValueAnimator valueAnimator = ValueAnimator.ofFloat(currentValue, value);</div><div class="line">valueAnimator.setDuration(<span class="number">300</span>);</div><div class="line">valueAnimator.setInterpolator(<span class="keyword">new</span> Interpolator() {</div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getInterpolation</span>(<span class="keyword">float</span> v) {</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>-(<span class="number">1</span>-v)*(<span class="number">1</span>-v)*(<span class="number">1</span>-v);</div><div class="line">    }</div><div class="line">});</div><div class="line">valueAnimator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() {</div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span>(ValueAnimator valueAnimator) {</div><div class="line">        currentValue = (<span class="keyword">float</span>) valueAnimator.getAnimatedValue();</div><div class="line">        invalidate();</div><div class="line">    }</div><div class="line">});</div><div class="line">valueAnimator.start();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>使用<code>ValueAnimator</code>来实现动画效果。还可以设置不同的插值器来实现不同的动画效果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">valueAnimator.setInterpolator(<span class="keyword">new</span> AccelerateInterpolator());<span class="comment">//加速</span></div><div class="line">   valueAnimator.setInterpolator(<span class="keyword">new</span> DecelerateInterpolator());<span class="comment">//减速</span></div><div class="line">   valueAnimator.setInterpolator(<span class="keyword">new</span> AccelerateDecelerateInterpolator());<span class="comment">//加速减速</span></div><div class="line">   valueAnimator.setInterpolator(<span class="keyword">new</span> LinearInterpolator());<span class="comment">//云速</span></div></pre></td></tr></table></figure>
+
+<p>常用插值器介绍可以看<a href="http://blog.csdn.net/lgaojiantong/article/details/39451243" target="_blank" rel="external">这篇文章</a>。</p>
+<p>当然也可以自己实现一个简单的插值器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">valueAnimator.setInterpolator(<span class="keyword">new</span> Interpolator() {</div><div class="line">	<span class="annotation">@Override</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getInterpolation</span>(<span class="keyword">float</span> v) {</div><div class="line">	    <span class="keyword">return</span> <span class="number">1</span>-(<span class="number">1</span>-v)*(<span class="number">1</span>-v)*(<span class="number">1</span>-v);</div><div class="line">	}</div><div class="line">});</div></pre></td></tr></table></figure>
+
+<p><span style="color:#FF0000">全部测试代码下载地址: </span> </p>
+<p><a href="https://github.com/hellsam/DoughnutDemo_Android" target="_blank" rel="external">https://github.com/hellsam/DoughnutDemo_Android</a></p>
+<p><span style="color:#18DDDD"><strong>欢迎留言交流，如有描述不当或错误的地方还请留言告知</strong></span> </p>
+<p>本博客网址 <a href="http://www.hellsam.com" target="_blank" rel="external">hellsam.com</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/android/">Android</a><a href="/tags/自定义View/">自定义View</a><a href="/tags/渐变圆环/">渐变圆环</a><a href="/tags/颜色渐变算法/">颜色渐变算法</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://hellsam.com/2015/12/21/Android画个圆环玩玩/" data-title="Android画个颜色渐变的圆环玩玩 | 菜鸟的天堂——hellsam" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/12/14/教你刷极客学院VIP会员（一）之原理分析/"  title="一步一步教你刷【极客学院VIP会员】（一）之原理分析">
+ <strong>NEXT:</strong><br/> 
+ <span>一步一步教你刷【极客学院VIP会员】（一）之原理分析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	
+	<div class="ds-thread" data-title="Android画个颜色渐变的圆环玩玩" data-thread-key="Android画个圆环玩玩" data-author-key="HellSam" data-url="http://hellsam.com/post/Android画个圆环玩玩"></div>
+	
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#先看下最终的效果"><span class="toc-number">1.</span> <span class="toc-text">先看下最终的效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始实现"><span class="toc-number">2.</span> <span class="toc-text">开始实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#新建一个DoughnutView继承View"><span class="toc-number">2.0.1.</span> <span class="toc-text">新建一个DoughnutView继承View</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#先重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里"><span class="toc-number">2.0.2.</span> <span class="toc-text">先重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下面就是最重要的重写onDraw方法，大致流程如下"><span class="toc-number">2.0.3.</span> <span class="toc-text">下面就是最重要的重写onDraw方法，大致流程如下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#动画效果的实现"><span class="toc-number">2.0.4.</span> <span class="toc-text">动画效果的实现</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-logo"></div>		
+	
+	<div class="social-list" class="clearfix">
+		
+		
+		
+		
+		
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="Android">Android<sup>3</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/others/" title="Others">Others<sup>2</sup></a></li>
+		
+			<li><a href="/categories/SenchaTouch2/" title="SenchaTouch2">SenchaTouch2<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/android/" title="Android">Android<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Geek/" title="Geek">Geek<sup>2</sup></a></li>
+		
+			<li><a href="/tags/NodeJS/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+			<li><a href="/tags/sencha-touch/" title="sencha touch">sencha touch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/坑/" title="坑">坑<sup>1</sup></a></li>
+		
+			<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+		
+			<li><a href="/tags/极客学院/" title="极客学院">极客学院<sup>2</sup></a></li>
+		
+			<li><a href="/tags/渐变圆环/" title="渐变圆环">渐变圆环<sup>1</sup></a></li>
+		
+			<li><a href="/tags/游戏/" title="游戏">游戏<sup>1</sup></a></li>
+		
+			<li><a href="/tags/破解/" title="破解">破解<sup>2</sup></a></li>
+		
+			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+		
+			<li><a href="/tags/自定义View/" title="自定义View">自定义View<sup>1</sup></a></li>
+		
+			<li><a href="/tags/颜色渐变算法/" title="颜色渐变算法">颜色渐变算法<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://blog.csdn.net/qp23401" target="_blank" title="CSDN">CSDN Blog</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+    
+            <p class="copyright"> © 2015 
+		
+		<a href="http://hellsam.com" target="_blank" title="HellSam">HellSam</a>
+		
+            && Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> && Theme by <a href="http://gengbiao.me" target="_blank" title="coney">coney</a>
+            </div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"hellsam"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+<script>
+    
+        var _bdImg = '4';
+    
+    window._bd_share_config={
+        "common":{
+            "bdSnsKey":{
+
+            },
+            "bdText":"",
+            "bdMini":"2",
+            "bdMiniList":[
+                "qzone",
+                "tsina",
+                "weixin",
+                "renren",
+                "tqq",
+                "tieba",
+                "douban",
+                "sqq",
+                "diandian",
+                "huaban",
+                "youdao",
+                "mail",
+                "ty",
+                "fbook",
+                "twi",
+                "linkedin",
+                "copy",
+                "print"
+            ],
+            "bdPic":"",
+            "bdStyle":"0",
+            "bdSize":"16"
+        },
+        "slide":{
+            "type":"slide",
+            "bdImg":_bdImg,
+            "bdPos":"right",
+            "bdTop":"350"
+        },
+        "image":{
+            "viewList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ],
+            "viewText":"分享：",
+            "viewSize":"16"
+        },
+        "selectShare":{
+            "bdContainerClass":null,
+            "bdSelectMiniList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ]
+        }
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
+
