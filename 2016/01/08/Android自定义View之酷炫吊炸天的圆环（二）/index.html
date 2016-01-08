@@ -106,8 +106,8 @@
       <a href="http://hellsam.com" title="HellSam">HellSam</a>
     </p>
   <p class="article-time">
-    <time datetime="2016-01-08T12:36:14.000Z" itemprop="datePublished">Jan 8 2016</time>
-    Updated:<time datetime="2016-01-08T12:36:14.000Z" itemprop="dateModified">Jan 8 2016</time>
+    <time datetime="2016-01-08T12:41:07.000Z" itemprop="datePublished">Jan 8 2016</time>
+    Updated:<time datetime="2016-01-08T12:41:07.000Z" itemprop="dateModified">Jan 8 2016</time>
     
   </p>
 </header>
@@ -142,37 +142,42 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">resetParams();</div><div class="line"></div><div class="line">   <span class="comment">//将画布中心设为原点(0,0), 方便后面计算坐标</span></div><div class="line">   canvas.translate(width / <span class="number">2</span>, height / <span class="number">2</span>);</div></pre></td></tr></table></figure>
 
 <h4 id="实现静态的渐变圆环">实现静态的渐变圆环</h4>
-<ol>
+<ul>
 <li>画渐变圆环</li>
-</ol>
+</ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">float</span> doughnutWidth = raduis * doughnutWidthPercent;<span class="comment">//圆环宽度</span></div><div class="line">   <span class="comment">//圆环外接矩形</span></div><div class="line">   RectF rectF = <span class="keyword">new</span> RectF(</div><div class="line">   -raduis * doughnutRaduisPercent, </div><div class="line">   -raduis * doughnutRaduisPercent, </div><div class="line">   raduis * doughnutRaduisPercent, </div><div class="line">   raduis * doughnutRaduisPercent);</div><div class="line">   initPaint();</div><div class="line">   paint.setStrokeWidth(doughnutWidth);</div><div class="line">   paint.setStyle(Paint.Style.STROKE);</div><div class="line">   paint.setShader(<span class="keyword">new</span> SweepGradient(<span class="number">0</span>, <span class="number">0</span>, doughnutColors, <span class="keyword">null</span>));</div><div class="line">   canvas.drawArc(rectF, <span class="number">0</span>, <span class="number">360</span>, <span class="keyword">false</span>, paint);</div></pre></td></tr></table></figure>
 
-<pre><code>&gt; 通过修改<span class="escape">`d</span>oughnutColors<span class="escape">`可</span>以实现不同的渐变效果
-</code></pre><ol>
+<blockquote>
+<p>通过修改<code>doughnutColors</code>可以实现不同的渐变效果</p>
+</blockquote>
+<ul>
 <li>画圆环旋转头部的圆</li>
-</ol>
+</ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//画旋转头部圆</span></div><div class="line">      initPaint();</div><div class="line">      paint.setStyle(Paint.Style.FILL);</div><div class="line">      paint.setColor(Color.argb(MAX_ALPHA, RED, GREEN, BLUE));</div><div class="line">      canvas.drawCircle(raduis * doughnutRaduisPercent, <span class="number">0</span>, doughnutWidth / <span class="number">2</span>, paint);</div></pre></td></tr></table></figure>
 
 
 
-<pre><code><span class="input"><span class="prompt">此时运行代码得到效果如下图：
-
-![](http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_03.png)
-
-&gt;</span> 我们还可以在绘制圆环之前通过旋转画布得到不同初始状态</span>
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">	</div><div class="line">canvas.rotate(-<span class="number">45</span>, <span class="number">0</span>, <span class="number">0</span>);</div></pre></td></tr></table></figure>
-
-
-<pre><code>![](http:<span class="comment">//7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_04.png)</span>
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">canvas.rotate(-<span class="number">180</span>, <span class="number">0</span>, <span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>此时运行代码得到效果如下图：</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_03.png" alt=""></p>
+<blockquote>
+<p>我们还可以在绘制圆环之前通过旋转画布得到不同初始状态</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">canvas.rotate(-<span class="number">45</span>, <span class="number">0</span>, <span class="number">0</span>);</div></pre></td></tr></table></figure>
 
 
-<pre><code>![](http:<span class="comment">//7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_05.png)</span>
-</code></pre><p>此时聪明的你应该已经想到怎么让这个圆环旋转起来了吧^_^</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_04.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">canvas.rotate(-<span class="number">180</span>, <span class="number">0</span>, <span class="number">0</span>);</div></pre></td></tr></table></figure>
+
+
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_05.png" alt=""></p>
+<p>此时聪明的你应该已经想到怎么让这个圆环旋转起来了吧^_^</p>
 <p>对！正如你所想的，就是通过<code>canvas.rotate</code>方法不停地旋转画布(这个“地”是这么用的吧o(╯□╰)o)</p>
 <h4 id="让圆环旋转起来">让圆环旋转起来</h4>
 <p>在绘制圆环之前加上下面的代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//转起来</span></div><div class="line">   canvas.rotate(-currentAngle, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line">   <span class="keyword">if</span> (currentAngle &gt;= <span class="number">360</span>f){</div><div class="line">       currentAngle = currentAngle - <span class="number">360</span>f;</div><div class="line">   } <span class="keyword">else</span>{</div><div class="line">       currentAngle = currentAngle + <span class="number">2</span>f;</div><div class="line">   }</div></pre></td></tr></table></figure>
+
+<p>然后再让一个线程循环刷新就好了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> Thread thread = <span class="keyword">new</span> Thread(){</div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {</div><div class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>){</div><div class="line">            <span class="keyword">try</span> {</div><div class="line">                Thread.sleep(<span class="number">10</span>);</div><div class="line">            } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">                e.printStackTrace();</div><div class="line">            }</div><div class="line">            postInvalidate();</div><div class="line">        }</div><div class="line">    }</div><div class="line">};</div></pre></td></tr></table></figure>
 
 
 <p>试试！转起来了吗O(∩_∩)O~</p>
