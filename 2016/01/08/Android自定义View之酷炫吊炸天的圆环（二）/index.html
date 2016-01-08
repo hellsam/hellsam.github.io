@@ -1,0 +1,562 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu_union_verify" content="d1952c66cf48912e21c18c7c581f382a">
+  <meta name="360-site-verification" content="67fbcc5a67f4c65c057315b28fa0b2c8" />
+<meta name="google-site-verification" content="2GzxQ0VtXwTSUdmGm6DzcmhTzM_I9QmzCb_pzpMzD88" />
+  
+    <title>Android自定义View之酷炫吊炸天的圆环（二） | 菜鸟的天堂——hellsam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="HellSam">
+    
+    <meta name="description" content="先看下最终的效果
+静态：
+
+动态：
+
+
+在线mp4 to gif http://ezgif.com/video-to-gif
+
+开始实现
+新建一个DoughnutProgress继承View
+123public class DoughnutProgress extends View {}
+
+先给出一">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="菜鸟的天堂——hellsam" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            var _bdId ='ab7f3e6552e292b9130dc7bd93c9d260';
+             hm.src = "//hm.baidu.com/hm.js?" + _bdId;
+             var s = document.getElementsByTagName("script")[0]; 
+             s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+     
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="菜鸟的天堂——hellsam">菜鸟的天堂——hellsam</a></h1>
+				<a class="blog-motto">一步两步一步两步，似大神的步伐</a>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/android">Android</a></li>
+					
+						<li><a href="/categories/nodejs">NodeJS</a></li>
+					
+						<li><a href="/categories/hack">Hack</a></li>
+					
+						<li><a href="/categories/others">Others</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:hellsam.com">
+					</form>
+					
+					</li>
+				</ul>
+                            </nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/01/08/Android自定义View之酷炫吊炸天的圆环（二）/" title="Android自定义View之酷炫吊炸天的圆环（二）" itemprop="url">Android自定义View之酷炫吊炸天的圆环（二）</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://hellsam.com" title="HellSam">HellSam</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-01-08T12:36:14.000Z" itemprop="datePublished">Jan 8 2016</time>
+    Updated:<time datetime="2016-01-08T12:36:14.000Z" itemprop="dateModified">Jan 8 2016</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#先看下最终的效果"><span class="toc-number">1.</span> <span class="toc-text">先看下最终的效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始实现"><span class="toc-number">2.</span> <span class="toc-text">开始实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建一个DoughnutProgress继承View"><span class="toc-number">2.1.</span> <span class="toc-text">新建一个DoughnutProgress继承View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#先给出一些常量、变量以及公共方法的代码，方便理解后面的代码"><span class="toc-number">2.2.</span> <span class="toc-text">先给出一些常量、变量以及公共方法的代码，方便理解后面的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里"><span class="toc-number">2.3.</span> <span class="toc-text">重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下面就是最重要的重写onDraw方法，大致流程如下"><span class="toc-number">2.4.</span> <span class="toc-text">下面就是最重要的重写onDraw方法，大致流程如下</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实现静态的渐变圆环"><span class="toc-number">2.4.1.</span> <span class="toc-text">实现静态的渐变圆环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#让圆环旋转起来"><span class="toc-number">2.4.2.</span> <span class="toc-text">让圆环旋转起来</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下面是比较有意思的部分，实现类似水波涟漪的效果"><span class="toc-number">2.4.3.</span> <span class="toc-text">下面是比较有意思的部分，实现类似水波涟漪的效果</span></a></li></ol></li></ol></li></ol>
+		</div>
+		
+		<h2 id="先看下最终的效果">先看下最终的效果</h2>
+<p><strong>静态：</strong></p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_07.png" alt=""></p>
+<p><strong>动态：</strong></p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_02.gif" alt=""></p>
+<blockquote>
+<p>在线mp4 to gif <a href="http://ezgif.com/video-to-gif" target="_blank" rel="external">http://ezgif.com/video-to-gif</a></p>
+</blockquote>
+<h2 id="开始实现">开始实现</h2>
+<h3 id="新建一个DoughnutProgress继承View">新建一个DoughnutProgress继承View</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DoughnutProgress</span> <span class="keyword">extends</span> <span class="title">View</span> </span>{</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="先给出一些常量、变量以及公共方法的代码，方便理解后面的代码">先给出一些常量、变量以及公共方法的代码，方便理解后面的代码</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_MIN_WIDTH = <span class="number">400</span>; <span class="comment">//View默认最小宽度</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> RED = <span class="number">230</span>, GREEN = <span class="number">85</span>, BLUE = <span class="number">35</span>; <span class="comment">//基础颜色，这里是橙红色</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MIN_ALPHA = <span class="number">30</span>; <span class="comment">//最小不透明度</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_ALPHA = <span class="number">255</span>; <span class="comment">//最大不透明度</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> doughnutRaduisPercent = <span class="number">0.65</span>f; <span class="comment">//圆环外圆半径占View最大半径的百分比</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> doughnutWidthPercent = <span class="number">0.12</span>f; <span class="comment">//圆环宽度占View最大半径的百分比</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> MIDDLE_WAVE_RADUIS_PERCENT = <span class="number">0.9</span>f; <span class="comment">//第二个圆出现时，第一个圆的半径百分比</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> WAVE_WIDTH = <span class="number">5</span>f; <span class="comment">//波纹圆环宽度</span></div><div class="line"></div><div class="line"><span class="comment">//圆环颜色</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[] doughnutColors = <span class="keyword">new</span> <span class="keyword">int</span>[]{</div><div class="line">        Color.argb(MAX_ALPHA, RED, GREEN, BLUE),</div><div class="line">        Color.argb(MIN_ALPHA, RED, GREEN, BLUE),</div><div class="line">        Color.argb(MIN_ALPHA, RED, GREEN, BLUE)};</div><div class="line"></div><div class="line"><span class="keyword">private</span> Paint paint = <span class="keyword">new</span> Paint(); <span class="comment">//画笔</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> width; <span class="comment">//自定义view的宽度</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> height; <span class="comment">//自定义view的高度</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> currentAngle = <span class="number">0</span>f; <span class="comment">//当前旋转角度</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> raduis; <span class="comment">//自定义view的最大半径</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> firstWaveRaduis;</div><div class="line"><span class="keyword">private</span> <span class="keyword">float</span> secondWaveRaduis;</div><div class="line"></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">resetParams</span>() {</div><div class="line">    width = getWidth();</div><div class="line">    height = getHeight();</div><div class="line">    raduis = Math.min(width, height)/<span class="number">2</span>;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initPaint</span>() {</div><div class="line">    paint.reset();</div><div class="line">    paint.setAntiAlias(<span class="keyword">true</span>);</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里">重写<code>onMeasure</code>方法，为什么要重写<code>onMeasure</code>方法可以看我的上一篇文章，点<a href="http://hellsam.com/2015/12/23/Android%E7%94%BB%E4%B8%AA%E6%97%B6%E9%92%9F%E7%8E%A9%E7%8E%A9/" target="_blank" rel="external">这里</a></h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="javadoc">/**</span></div><div class="line">    * 当布局为wrap_content时设置默认长宽</div><div class="line">    *</div><div class="line">    *<span class="javadoctag"> @param</span> widthMeasureSpec</div><div class="line">    *<span class="javadoctag"> @param</span> heightMeasureSpec</div><div class="line">    */</div><div class="line">   <span class="annotation">@Override</span></div><div class="line">   <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span>(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec) {</div><div class="line">       setMeasuredDimension(measure(widthMeasureSpec), measure(heightMeasureSpec));</div><div class="line">   }</div><div class="line"></div><div class="line">   <span class="keyword">private</span> <span class="keyword">int</span> <span class="title">measure</span>(<span class="keyword">int</span> origin) {</div><div class="line">       <span class="keyword">int</span> result = DEFAULT_MIN_WIDTH;</div><div class="line">       <span class="keyword">int</span> specMode = MeasureSpec.getMode(origin);</div><div class="line">       <span class="keyword">int</span> specSize = MeasureSpec.getSize(origin);</div><div class="line">       <span class="keyword">if</span> (specMode == MeasureSpec.EXACTLY) {</div><div class="line">           result = specSize;</div><div class="line">       } <span class="keyword">else</span> {</div><div class="line">           <span class="keyword">if</span> (specMode == MeasureSpec.AT_MOST) {</div><div class="line">               result = Math.min(result, specSize);</div><div class="line">           }</div><div class="line">       }</div><div class="line">       <span class="keyword">return</span> result;</div><div class="line">   }</div></pre></td></tr></table></figure>
+
+<h3 id="下面就是最重要的重写onDraw方法，大致流程如下">下面就是最重要的重写<code>onDraw</code>方法，大致流程如下</h3>
+<p>在开始绘制之前，先初始化<code>width</code>、<code>height</code>、<code>raduis</code>, 以及将View的中心作为原点</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">resetParams();</div><div class="line"></div><div class="line">   <span class="comment">//将画布中心设为原点(0,0), 方便后面计算坐标</span></div><div class="line">   canvas.translate(width / <span class="number">2</span>, height / <span class="number">2</span>);</div></pre></td></tr></table></figure>
+
+<h4 id="实现静态的渐变圆环">实现静态的渐变圆环</h4>
+<ol>
+<li>画渐变圆环</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">float</span> doughnutWidth = raduis * doughnutWidthPercent;<span class="comment">//圆环宽度</span></div><div class="line">   <span class="comment">//圆环外接矩形</span></div><div class="line">   RectF rectF = <span class="keyword">new</span> RectF(</div><div class="line">   -raduis * doughnutRaduisPercent, </div><div class="line">   -raduis * doughnutRaduisPercent, </div><div class="line">   raduis * doughnutRaduisPercent, </div><div class="line">   raduis * doughnutRaduisPercent);</div><div class="line">   initPaint();</div><div class="line">   paint.setStrokeWidth(doughnutWidth);</div><div class="line">   paint.setStyle(Paint.Style.STROKE);</div><div class="line">   paint.setShader(<span class="keyword">new</span> SweepGradient(<span class="number">0</span>, <span class="number">0</span>, doughnutColors, <span class="keyword">null</span>));</div><div class="line">   canvas.drawArc(rectF, <span class="number">0</span>, <span class="number">360</span>, <span class="keyword">false</span>, paint);</div></pre></td></tr></table></figure>
+
+<pre><code>&gt; 通过修改<span class="escape">`d</span>oughnutColors<span class="escape">`可</span>以实现不同的渐变效果
+</code></pre><ol>
+<li>画圆环旋转头部的圆</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//画旋转头部圆</span></div><div class="line">      initPaint();</div><div class="line">      paint.setStyle(Paint.Style.FILL);</div><div class="line">      paint.setColor(Color.argb(MAX_ALPHA, RED, GREEN, BLUE));</div><div class="line">      canvas.drawCircle(raduis * doughnutRaduisPercent, <span class="number">0</span>, doughnutWidth / <span class="number">2</span>, paint);</div></pre></td></tr></table></figure>
+
+
+
+<pre><code><span class="input"><span class="prompt">此时运行代码得到效果如下图：
+
+![](http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_03.png)
+
+&gt;</span> 我们还可以在绘制圆环之前通过旋转画布得到不同初始状态</span>
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">	</div><div class="line">canvas.rotate(-<span class="number">45</span>, <span class="number">0</span>, <span class="number">0</span>);</div></pre></td></tr></table></figure>
+
+
+<pre><code>![](http:<span class="comment">//7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_04.png)</span>
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">canvas.rotate(-<span class="number">180</span>, <span class="number">0</span>, <span class="number">0</span>);</div></pre></td></tr></table></figure>
+
+
+<pre><code>![](http:<span class="comment">//7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_05.png)</span>
+</code></pre><p>此时聪明的你应该已经想到怎么让这个圆环旋转起来了吧^_^</p>
+<p>对！正如你所想的，就是通过<code>canvas.rotate</code>方法不停地旋转画布(这个“地”是这么用的吧o(╯□╰)o)</p>
+<h4 id="让圆环旋转起来">让圆环旋转起来</h4>
+<p>在绘制圆环之前加上下面的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//转起来</span></div><div class="line">   canvas.rotate(-currentAngle, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line">   <span class="keyword">if</span> (currentAngle &gt;= <span class="number">360</span>f){</div><div class="line">       currentAngle = currentAngle - <span class="number">360</span>f;</div><div class="line">   } <span class="keyword">else</span>{</div><div class="line">       currentAngle = currentAngle + <span class="number">2</span>f;</div><div class="line">   }</div></pre></td></tr></table></figure>
+
+
+<p>试试！转起来了吗O(∩_∩)O~</p>
+<h4 id="下面是比较有意思的部分，实现类似水波涟漪的效果">下面是比较有意思的部分，实现类似水波涟漪的效果</h4>
+<p>分析水波涟漪效果的实现原理（画了张草图方便理解）：</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_demo_doughnut_progress_06.png" alt=""></p>
+<p>假设淡黄色背景区域为整个View的大小</p>
+<p>黑色圆圈为View内的最大圆（半径为R3）</p>
+<p>橙色圆环代表渐变圆环</p>
+<p>红色圆圈代表圆环的外圆（半径为R1）</p>
+<p>紫色圆圈是干啥子的，待会儿再介绍~（半径为R2）</p>
+<p>通过观察实现的最终效果，可以发现有个圆的半径从R1逐渐增大R3，不透明度逐渐减小到0。</p>
+<p>那是不是这样周而复始就可以实现最终的效果了呢？</p>
+<p>没那么简单。。。</p>
+<p>仔细观察发现，第二个圆不是等到第一个圆的半径增大到R3才开始出现的，而是在将要消失的时候就出现了，有一段时间是两个圆同时存在的。</p>
+<p>那么我们就假设当第一个圆的半径增大到R2，第二个圆开始出现。</p>
+<p>开始想象两个圆的循环运行模型~~~</p>
+<p>我的方案是：</p>
+<p>绘制两个圆，每个圆的半径都从R1增大到R1+2x(R2-R1)，不透明度还是从R1到R3的过程中逐渐变为0，也就是当圆的半径大于R3时，不透明度就为0了（不可见了），将第一个圆半径初始值设为R1，第二个圆半径初始值设为R2。这样两个圆半径同时逐渐增大，当半径大于 R1+2x(R2-R1)时又重新回到R1大小继续增大，就实现了类似水波涟漪的效果了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//实现类似水波涟漪效果</span></div><div class="line">   initPaint();</div><div class="line">   paint.setStyle(Paint.Style.STROKE);</div><div class="line">   paint.setStrokeWidth(<span class="number">5</span>);</div><div class="line">   secondWaveRaduis = calculateWaveRaduis(secondWaveRaduis);</div><div class="line">   firstWaveRaduis = calculateWaveRaduis(secondWaveRaduis + raduis*(MIDDLE_WAVE_RADUIS_PERCENT - doughnutRaduisPercent) - raduis*doughnutWidthPercent/<span class="number">2</span>);</div><div class="line">   paint.setColor(Color.argb(calculateWaveAlpha(secondWaveRaduis), RED, GREEN, BLUE));</div><div class="line">   canvas.drawCircle(<span class="number">0</span>, <span class="number">0</span>, secondWaveRaduis, paint); <span class="comment">//画第二个圆（初始半径较小的）</span></div><div class="line"></div><div class="line">   initPaint();</div><div class="line">   paint.setStyle(Paint.Style.STROKE);</div><div class="line">   paint.setStrokeWidth(<span class="number">5</span>);</div><div class="line">   paint.setColor(Color.argb(calculateWaveAlpha(firstWaveRaduis), RED, GREEN, BLUE));</div><div class="line">   canvas.drawCircle(<span class="number">0</span>, <span class="number">0</span>, firstWaveRaduis, paint); <span class="comment">//画第一个圆（初始半径较大的）</span></div><div class="line">   </div><div class="line">   </div><div class="line">   <span class="javadoc">/**</span></div><div class="line">    * 计算波纹圆的半径</div><div class="line">    *<span class="javadoctag"> @param</span> waveRaduis</div><div class="line">    *<span class="javadoctag"> @return</span></div><div class="line">    */</div><div class="line">   <span class="keyword">private</span> <span class="keyword">float</span> <span class="title">calculateWaveRaduis</span>(<span class="keyword">float</span> waveRaduis){</div><div class="line">       <span class="keyword">if</span>(waveRaduis &lt; raduis*doughnutRaduisPercent + raduis*doughnutWidthPercent/<span class="number">2</span>){</div><div class="line">           waveRaduis = raduis*doughnutRaduisPercent + raduis*doughnutWidthPercent/<span class="number">2</span>;</div><div class="line">       }</div><div class="line">       <span class="keyword">if</span>(waveRaduis &gt; raduis*MIDDLE_WAVE_RADUIS_PERCENT + raduis*(MIDDLE_WAVE_RADUIS_PERCENT - doughnutRaduisPercent) - raduis*doughnutWidthPercent/<span class="number">2</span>){</div><div class="line">           waveRaduis = waveRaduis - (raduis*MIDDLE_WAVE_RADUIS_PERCENT + raduis*(MIDDLE_WAVE_RADUIS_PERCENT - doughnutRaduisPercent) - raduis*doughnutWidthPercent/<span class="number">2</span>) + raduis*doughnutWidthPercent/<span class="number">2</span> + raduis*doughnutRaduisPercent;</div><div class="line">       }</div><div class="line">           waveRaduis += <span class="number">0.6</span>f;</div><div class="line">       <span class="keyword">return</span> waveRaduis;</div><div class="line">   }</div><div class="line"></div><div class="line">   <span class="javadoc">/**</span></div><div class="line">    * 根据波纹圆的半径计算不透明度</div><div class="line">    *<span class="javadoctag"> @param</span> waveRaduis</div><div class="line">    *<span class="javadoctag"> @return</span></div><div class="line">    */</div><div class="line">   <span class="keyword">private</span> <span class="keyword">int</span> <span class="title">calculateWaveAlpha</span>(<span class="keyword">float</span> waveRaduis){</div><div class="line">       <span class="keyword">float</span> percent = (waveRaduis-raduis*doughnutRaduisPercent-raduis*doughnutWidthPercent/<span class="number">2</span>)/(raduis-raduis*doughnutRaduisPercent-raduis*doughnutWidthPercent/<span class="number">2</span>);</div><div class="line">       <span class="keyword">if</span>(percent &gt;= <span class="number">1</span>f){</div><div class="line">           <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">       }<span class="keyword">else</span>{</div><div class="line">           <span class="keyword">return</span> (<span class="keyword">int</span>) (MIN_ALPHA*(<span class="number">1</span>f-percent));</div><div class="line">       }</div><div class="line">   }</div></pre></td></tr></table></figure>
+
+<p><span style="color:#FF0000">全部测试代码下载地址: </span> </p>
+<p><a href="https://github.com/hellsam/DoughnutProgressDemo" target="_blank" rel="external">https://github.com/hellsam/DoughnutProgressDemo</a></p>
+<p><span style="color:#18DDDD"><strong>欢迎留言交流，如有描述不当或错误的地方还请留言告知</strong></span> </p>
+<p>本博客网址 <a href="http://www.hellsam.com" target="_blank" rel="external">hellsam.com</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/android/">Android</a><a href="/tags/自定义View/">自定义View</a><a href="/tags/ProgressView/">ProgressView</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://hellsam.com/2016/01/08/Android自定义View之酷炫吊炸天的圆环（二）/" data-title="Android自定义View之酷炫吊炸天的圆环（二） | 菜鸟的天堂——hellsam" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/12/23/Android画个圆环玩玩/"  title="Android画个颜色渐变的圆环玩玩">
+ <strong>NEXT:</strong><br/> 
+ <span>Android画个颜色渐变的圆环玩玩
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	
+	<div class="ds-thread" data-title="Android自定义View之酷炫吊炸天的圆环（二）" data-thread-key="Android自定义View之酷炫吊炸天的圆环（二）" data-author-key="HellSam" data-url="http://hellsam.com/post/Android自定义View之酷炫吊炸天的圆环（二）"></div>
+	
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#先看下最终的效果"><span class="toc-number">1.</span> <span class="toc-text">先看下最终的效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始实现"><span class="toc-number">2.</span> <span class="toc-text">开始实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新建一个DoughnutProgress继承View"><span class="toc-number">2.1.</span> <span class="toc-text">新建一个DoughnutProgress继承View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#先给出一些常量、变量以及公共方法的代码，方便理解后面的代码"><span class="toc-number">2.2.</span> <span class="toc-text">先给出一些常量、变量以及公共方法的代码，方便理解后面的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里"><span class="toc-number">2.3.</span> <span class="toc-text">重写onMeasure方法，为什么要重写onMeasure方法可以看我的上一篇文章，点这里</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下面就是最重要的重写onDraw方法，大致流程如下"><span class="toc-number">2.4.</span> <span class="toc-text">下面就是最重要的重写onDraw方法，大致流程如下</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实现静态的渐变圆环"><span class="toc-number">2.4.1.</span> <span class="toc-text">实现静态的渐变圆环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#让圆环旋转起来"><span class="toc-number">2.4.2.</span> <span class="toc-text">让圆环旋转起来</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下面是比较有意思的部分，实现类似水波涟漪的效果"><span class="toc-number">2.4.3.</span> <span class="toc-text">下面是比较有意思的部分，实现类似水波涟漪的效果</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-logo"></div>		
+	
+	<div class="social-list" class="clearfix">
+		
+		
+		
+		
+		
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="Android">Android<sup>4</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/others/" title="Others">Others<sup>2</sup></a></li>
+		
+			<li><a href="/categories/SenchaTouch2/" title="SenchaTouch2">SenchaTouch2<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/android/" title="Android">Android<sup>4</sup></a></li>
+		
+			<li><a href="/tags/Geek/" title="Geek">Geek<sup>2</sup></a></li>
+		
+			<li><a href="/tags/NodeJS/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/ProgressView/" title="ProgressView">ProgressView<sup>1</sup></a></li>
+		
+			<li><a href="/tags/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+			<li><a href="/tags/progress/" title="progress">progress<sup>0</sup></a></li>
+		
+			<li><a href="/tags/sencha-touch/" title="sencha touch">sencha touch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/坑/" title="坑">坑<sup>1</sup></a></li>
+		
+			<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+		
+			<li><a href="/tags/极客学院/" title="极客学院">极客学院<sup>2</sup></a></li>
+		
+			<li><a href="/tags/渐变圆环/" title="渐变圆环">渐变圆环<sup>1</sup></a></li>
+		
+			<li><a href="/tags/游戏/" title="游戏">游戏<sup>1</sup></a></li>
+		
+			<li><a href="/tags/破解/" title="破解">破解<sup>2</sup></a></li>
+		
+			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+		
+			<li><a href="/tags/自定义View/" title="自定义View">自定义View<sup>2</sup></a></li>
+		
+			<li><a href="/tags/颜色渐变算法/" title="颜色渐变算法">颜色渐变算法<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://blog.csdn.net/qp23401" target="_blank" title="CSDN">CSDN Blog</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+    
+            <p class="copyright"> © 2016 
+		
+		<a href="http://hellsam.com" target="_blank" title="HellSam">HellSam</a>
+		
+            && Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> && Theme by <a href="http://gengbiao.me" target="_blank" title="coney">coney</a>
+            </div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"hellsam"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+<script>
+    
+        var _bdImg = '4';
+    
+    window._bd_share_config={
+        "common":{
+            "bdSnsKey":{
+
+            },
+            "bdText":"",
+            "bdMini":"2",
+            "bdMiniList":[
+                "qzone",
+                "tsina",
+                "weixin",
+                "renren",
+                "tqq",
+                "tieba",
+                "douban",
+                "sqq",
+                "diandian",
+                "huaban",
+                "youdao",
+                "mail",
+                "ty",
+                "fbook",
+                "twi",
+                "linkedin",
+                "copy",
+                "print"
+            ],
+            "bdPic":"",
+            "bdStyle":"0",
+            "bdSize":"16"
+        },
+        "slide":{
+            "type":"slide",
+            "bdImg":_bdImg,
+            "bdPos":"right",
+            "bdTop":"350"
+        },
+        "image":{
+            "viewList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ],
+            "viewText":"分享：",
+            "viewSize":"16"
+        },
+        "selectShare":{
+            "bdContainerClass":null,
+            "bdSelectMiniList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ]
+        }
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
+
