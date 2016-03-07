@@ -97,8 +97,8 @@
       <a href="http://hellsam.com" title="HellSam">HellSam</a>
     </p>
   <p class="article-time">
-    <time datetime="2016-03-07T07:09:22.000Z" itemprop="datePublished">Mar 7 2016</time>
-    Updated:<time datetime="2016-03-07T07:09:22.000Z" itemprop="dateModified">Mar 7 2016</time>
+    <time datetime="2016-03-07T07:39:11.000Z" itemprop="datePublished">Mar 7 2016</time>
+    Updated:<time datetime="2016-03-07T07:39:11.000Z" itemprop="dateModified">Mar 7 2016</time>
     
   </p>
 </header>
@@ -112,14 +112,14 @@
 		
 		<h2 id="先来谈谈我的数据库调试历程">先来谈谈我的数据库调试历程</h2>
 <h3 id="第一阶段：">第一阶段：</h3>
-<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_01.png?imageView2/2/w/640" alt=""></p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_01.png?imageView2/2/w/1280" alt=""></p>
 <p>这个熟悉的界面，记得那是13年初的时候，想要查看sqlite里面的数据都要通过这个Android Device Monitor找到/data/data/com.xxx.xxx/databases里面的db文件，然后导出到PC上，最后用PC上的数据库工具打开来查看。</p>
 <blockquote>
 <p>还会遇到data文件夹死活打不开的情况（权限问题），说多了都是泪😭</p>
 </blockquote>
 <h3 id="第二阶段：">第二阶段：</h3>
-<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_02.png?imageView2/2/w/480" alt=""></p>
-<p>后来手机上出现了一些资源查看的App(需要root权限)，可以直接在手机上查看数据库啦~</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_02.png?imageView2/2/w/1280" alt=""></p>
+<p>后来手机上出现了一些资源查看的App(需要root权限)，可以直接在手机上查看数据库啦~(上图为<code>RE文件管理器</code>的截图)</p>
 <p>这比上面那种方式真是方便太多了，但也有很多不足之处，比如需要两个应用切换来切换去、当数据量比较大的时候会比较卡。</p>
 <p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_03.png?imageView2/2/w/1280" alt=""></p>
 <h3 id="第三阶段：">第三阶段：</h3>
@@ -138,7 +138,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>{</div><div class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span>() {</div><div class="line">    <span class="keyword">super</span>.onCreate();</div><div class="line">    Stetho.initializeWithDefaults(<span class="keyword">this</span>);</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <ol>
-<li>运行App, 打开Chrome输入<code>chrome://inspect/#devices</code></li>
+<li>运行App, 打开Chrome输入<code>chrome://inspect/#devices</code>（别忘了用数据线把手机和电脑连起来哦）</li>
 </ol>
 <p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_06.png?imageView2/2/w/1280" alt=""></p>
 <p>如上图，chrome会检测到我们的app，点击<code>inspect</code>进入查看页面</p>
@@ -173,7 +173,7 @@
 <h3 id="第三阶段">第三阶段</h3>
 <p>通过<code>Stetho</code>来实现，chrome调试Android网络请求。</p>
 <blockquote>
-<p>注：这里的例子是基于采用okhttp来发请求的，如果是<code>HttpURLConnection</code>可以到<a href="http://facebook.github.io/stetho/" target="_blank" rel="external">Stetho官网</a></p>
+<p>注：这里的例子是基于采用okhttp来发请求的，如果是<code>HttpURLConnection</code>可以到<a href="http://facebook.github.io/stetho/" target="_blank" rel="external">Stetho官网</a>查看相关配置</p>
 </blockquote>
 <p>步骤：</p>
 <ol>
@@ -193,22 +193,29 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient.Builder()</div><div class="line">               .addNetworkInterceptor(<span class="keyword">new</span> StethoInterceptor())</div><div class="line">               .build();</div></pre></td></tr></table></figure>
 
 
-<pre><code><span class="blockquote">&gt; 注：是addNetworkInterceptor不是addInterceptor</span>
-</code></pre><ol>
+<blockquote>
+<p>注：是addNetworkInterceptor不是addInterceptor</p>
+</blockquote>
+<ol>
 <li><p>运行App, 打开Chrome输入<code>chrome://inspect/#devices</code>（跟上文查看数据库内容的步骤一样）</p>
 <p> 点击<code>inspect</code>进入查看页面，然后在app用okhttp发起一个请求，就可以在<code>Network</code>下拦截到请求的相关数据了。</p>
-<p> <img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_09.png" alt=""></p>
+<p> <img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_09.png?imageView2/2/w/1280" alt=""></p>
 <p> nice~</p>
+</li>
+</ol>
 <blockquote>
 <p>小贴士：用Chrome开发者工具抓包的时候，会发现如果页面跳转了，那么上一个页面的请求信息就没有了。这个只要勾选上<code>Preserve log</code>就不会了。</p>
 </blockquote>
-</li>
-</ol>
+<p>有个小问题, Response返回的json数据没法自动格式化显示=_=，有解决过这个问题的朋友还请留言告知，3Q~</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_12.png" alt=""></p>
 <h2 id="One_more_thing">One more thing</h2>
 <p>界面UI树状结构也能抓的到呀！！！</p>
 <p><code>Elements</code>下查看~</p>
-<p>普通text信息还可以直接修改并在手机上预览效果。</p>
-<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_11.png" alt=""></p>
+<p>普通text信息还可以直接修改并在手机上预览效果。~(≧▽≦)/~</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_11.png?imageView2/2/w/1280" alt=""></p>
+<p>全部测试代码下载地址:  </p>
+<p><a href="https://github.com/hellsam/StethoTest" target="_blank" rel="external">https://github.com/hellsam/StethoTest</a></p>
+<p>欢迎留言交流，如有描述不当或错误的地方还请留言告知</p>
   
 	</div>
 		<footer class="article-footer clearfix">
