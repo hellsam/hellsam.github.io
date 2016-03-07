@@ -1,0 +1,550 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu_union_verify" content="d1952c66cf48912e21c18c7c581f382a">
+  <meta name="360-site-verification" content="67fbcc5a67f4c65c057315b28fa0b2c8" />
+<meta name="google-site-verification" content="2GzxQ0VtXwTSUdmGm6DzcmhTzM_I9QmzCb_pzpMzD88" />
+  
+    <title>Android跳跃吧山地车 | 菜鸟的天堂——hellsam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="HellSam">
+    
+    <meta name="description" content="先看下最终的效果
+
+
+Flash素材来自http://sc.chinaz.com/，自己通过一些工具提取成图片。
+
+涉及的知识点
+
+帧动画(Frame Animation)
+ 这个Demo有两个帧动画，分别是自行车跳跃和自行车骑行中（轮胎滚动状态）时的帧动画。代码如下：
+
+
+自行车跳跃：
+12345">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="菜鸟的天堂——hellsam" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            var _bdId ='ab7f3e6552e292b9130dc7bd93c9d260';
+             hm.src = "//hm.baidu.com/hm.js?" + _bdId;
+             var s = document.getElementsByTagName("script")[0]; 
+             s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+     
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="菜鸟的天堂——hellsam">菜鸟的天堂——hellsam</a></h1>
+				<a class="blog-motto">一步两步一步两步，似大神的步伐</a>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/android">Android</a></li>
+					
+						<li><a href="/categories/nodejs">NodeJS</a></li>
+					
+						<li><a href="/categories/hack">Hack</a></li>
+					
+						<li><a href="/categories/others">Others</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:hellsam.com">
+					</form>
+					
+					</li>
+				</ul>
+                            </nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/01/28/Android山地车动起来/" title="Android跳跃吧山地车" itemprop="url">Android跳跃吧山地车</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://hellsam.com" title="HellSam">HellSam</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-01-27T18:30:36.000Z" itemprop="datePublished">Jan 28 2016</time>
+    Updated:<time datetime="2016-01-27T18:30:36.000Z" itemprop="dateModified">Jan 28 2016</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#先看下最终的效果"><span class="toc-number">1.</span> <span class="toc-text">先看下最终的效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#涉及的知识点"><span class="toc-number">2.</span> <span class="toc-text">涉及的知识点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下面给出其余相关代码"><span class="toc-number">3.</span> <span class="toc-text">下面给出其余相关代码</span></a></li></ol>
+		</div>
+		
+		<h3 id="先看下最终的效果">先看下最终的效果</h3>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_android_drawable_animation_01.gif" alt=""></p>
+<blockquote>
+<p>Flash素材来自<a href="http://sc.chinaz.com/" target="_blank" rel="external">http://sc.chinaz.com/</a>，自己通过一些工具提取成图片。</p>
+</blockquote>
+<h3 id="涉及的知识点">涉及的知识点</h3>
+<ol>
+<li><p>帧动画(Frame Animation)</p>
+<p> 这个Demo有两个帧动画，分别是自行车跳跃和自行车骑行中（轮胎滚动状态）时的帧动画。代码如下：</p>
+</li>
+</ol>
+<p><strong>自行车跳跃：</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">animation-list</span> <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span> </span></div><div class="line"><span class="attribute">android:oneshot</span>=<span class="value">"false"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_0"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_1"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_2"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_3"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_4"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_5"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_6"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_7"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_8"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_9"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_10"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_11"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_12"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_13"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_14"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_15"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_16"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_17"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_18"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_19"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/jump_20"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">animation-list</span>&gt;</span></div></pre></td></tr></table></figure>
+
+
+<p><strong>自行车轮子滚动：</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">animation-list</span></span></div><div class="line">    <span class="attribute">android:oneshot</span>=<span class="value">"false"</span></div><div class="line">    <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_0"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_1"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_2"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_3"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_4"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_5"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_6"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_7"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_8"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_9"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_10"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_11"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_12"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_13"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">item</span> <span class="attribute">android:drawable</span>=<span class="value">"@mipmap/riding_14"</span> <span class="attribute">android:duration</span>=<span class="value">"50"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">animation-list</span>&gt;</span></div></pre></td></tr></table></figure>
+
+
+<pre><code><span class="input"><span class="prompt">&gt; 保存成xml存在drawable文件夹中，之后就可以当drawable对象一样设置到imageview中了
+
+&gt;</span> `<span class="symbol">android:</span>oneshot` 设置动画是否只运行一次</span>
+<span class="input"><span class="prompt">
+&gt;</span> `<span class="symbol">android:</span>drawable` 设置当前帧的图片</span>
+<span class="input"><span class="prompt">
+&gt;</span> `<span class="symbol">android:</span>duration` 设置当前帧的播放时长，单位ms</span>
+</code></pre><p><strong>调用方式：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.hellsam.drawableanimatordemo;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.animation.ValueAnimator;</div><div class="line"><span class="keyword">import</span> android.graphics.drawable.AnimationDrawable;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.os.Handler;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</div><div class="line"><span class="keyword">import</span> android.view.MotionEvent;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.view.animation.LinearInterpolator;</div><div class="line"><span class="keyword">import</span> android.widget.Button;</div><div class="line"><span class="keyword">import</span> android.widget.ImageView;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>{</div><div class="line">    <span class="keyword">private</span> ImageView mIV;</div><div class="line">    <span class="keyword">private</span> AnimationDrawable mAnimationDrawable;</div><div class="line">    <span class="keyword">private</span> Handler mHandler = <span class="keyword">new</span> Handler();</div><div class="line"></div><div class="line"></div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span>(Bundle savedInstanceState) {</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        mIV = (ImageView) findViewById(R.id.iv_canvas);</div><div class="line">        getWindow().getDecorView().post(<span class="keyword">new</span> Runnable() {</div><div class="line">            <span class="annotation">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {</div><div class="line">                mHandler.post(<span class="keyword">new</span> Runnable() {</div><div class="line">                    <span class="annotation">@Override</span></div><div class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {</div><div class="line">                        mIV.setBackgroundResource(R.drawable.riding);</div><div class="line">                        mAnimationDrawable = (AnimationDrawable) mIV.getBackground();</div><div class="line">                        mAnimationDrawable.start();</div><div class="line">                    }</div><div class="line">                });</div><div class="line">            }</div><div class="line">        });</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+
+<ol>
+<li><p>属性动画(Property Animation)</p>
+<p> 这个demo中自行车左右移动是用属性动画实现的。代码如下：</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mIV.animate().translationXBy(<span class="number">10000</span>).setInterpolator(<span class="keyword">new</span> LinearInterpolator()).setDuration(<span class="number">20000</span>).start();</div></pre></td></tr></table></figure>
+
+
+<pre><code><span class="input"><span class="prompt">&gt; 这里的10000只是为了大于屏幕宽度，使按下按钮后（未抬起）车子能一直移动超过一个屏幕宽度。
+
+&gt;</span> <span class="number">20000</span>是根据车子的速度和<span class="number">10000</span>设置的。</span>
+<span class="input"><span class="prompt">
+&gt;</span> 这里用线性差值器(<span class="constant">LinearInterpolator</span>)是小车匀速运动。</span>
+</code></pre><h3 id="下面给出其余相关代码">下面给出其余相关代码</h3>
+<p><strong>MainActivity:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.hellsam.drawableanimatordemo;</div><div class="line"></div><div class="line"><span class="keyword">import</span> android.animation.ValueAnimator;</div><div class="line"><span class="keyword">import</span> android.graphics.drawable.AnimationDrawable;</div><div class="line"><span class="keyword">import</span> android.os.Bundle;</div><div class="line"><span class="keyword">import</span> android.os.Handler;</div><div class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</div><div class="line"><span class="keyword">import</span> android.view.MotionEvent;</div><div class="line"><span class="keyword">import</span> android.view.View;</div><div class="line"><span class="keyword">import</span> android.view.animation.LinearInterpolator;</div><div class="line"><span class="keyword">import</span> android.widget.Button;</div><div class="line"><span class="keyword">import</span> android.widget.ImageView;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> <span class="keyword">implements</span> <span class="title">ValueAnimator</span>.<span class="title">AnimatorUpdateListener</span> </span>{</div><div class="line">    <span class="keyword">private</span> ImageView mIV;</div><div class="line">    <span class="keyword">private</span> AnimationDrawable mAnimationDrawable;</div><div class="line">    <span class="keyword">private</span> Button mLeftBtn;</div><div class="line">    <span class="keyword">private</span> Button mRightBtn;</div><div class="line">    <span class="keyword">private</span> Button mJumpBtn;</div><div class="line">    <span class="keyword">private</span> Handler mHandler = <span class="keyword">new</span> Handler();</div><div class="line"></div><div class="line">    <span class="comment">//是否正在往左运动，是否正在往右运动，是否正在跳跃</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isRidingLeft = <span class="keyword">false</span>, isRidingRight = <span class="keyword">false</span>, isJumping = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span>(Bundle savedInstanceState) {</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        mIV = (ImageView) findViewById(R.id.iv_canvas);</div><div class="line">        mLeftBtn = (Button) findViewById(R.id.btn_left);</div><div class="line">        mRightBtn = (Button) findViewById(R.id.btn_right);</div><div class="line">        mJumpBtn = (Button) findViewById(R.id.btn_jump);</div><div class="line">        getWindow().getDecorView().post(<span class="keyword">new</span> Runnable() {</div><div class="line">            <span class="annotation">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {</div><div class="line">                mHandler.post(<span class="keyword">new</span> Runnable() {</div><div class="line">                    <span class="annotation">@Override</span></div><div class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {</div><div class="line">                        <span class="comment">//先加载一下帧动画资源，避免第一次加载的时候的卡顿</span></div><div class="line">                        mIV.setBackgroundResource(R.drawable.riding);</div><div class="line">                        mAnimationDrawable = (AnimationDrawable) mIV.getBackground();</div><div class="line">                        mIV.setBackgroundResource(R.drawable.jump);</div><div class="line">                        mAnimationDrawable = (AnimationDrawable) mIV.getBackground();</div><div class="line">                        mIV.setBackgroundResource(R.mipmap.riding_0);</div><div class="line">                    }</div><div class="line">                });</div><div class="line">            }</div><div class="line">        });</div><div class="line"></div><div class="line">        mJumpBtn.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() {</div><div class="line">            <span class="annotation">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span>(View v) {</div><div class="line">                jump();</div><div class="line">            }</div><div class="line">        });</div><div class="line">        mRightBtn.setOnTouchListener(<span class="keyword">new</span> View.OnTouchListener() {</div><div class="line">            <span class="annotation">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span>(View v, MotionEvent event) {</div><div class="line">                <span class="keyword">switch</span> (event.getAction()) {</div><div class="line">                    <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">                        <span class="keyword">if</span> (!isJumping) {</div><div class="line">                            ride();</div><div class="line">                        }</div><div class="line">                        isRidingRight = <span class="keyword">true</span>;</div><div class="line">                        isRidingLeft = <span class="keyword">false</span>;</div><div class="line">                        ride2Right();</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">case</span> MotionEvent.ACTION_UP:</div><div class="line">                        <span class="keyword">if</span> (!isRidingLeft) {</div><div class="line">                            mIV.animate().cancel();</div><div class="line">                        }</div><div class="line">                        <span class="keyword">if</span> (!isJumping && !isRidingLeft) {</div><div class="line">                            mAnimationDrawable.stop();</div><div class="line">                        }</div><div class="line">                        isRidingRight = <span class="keyword">false</span>;</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                }</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            }</div><div class="line">        });</div><div class="line">        mLeftBtn.setOnTouchListener(<span class="keyword">new</span> View.OnTouchListener() {</div><div class="line">            <span class="annotation">@Override</span></div><div class="line">            <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span>(View v, MotionEvent event) {</div><div class="line">                <span class="keyword">switch</span> (event.getAction()) {</div><div class="line">                    <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">                        <span class="keyword">if</span> (!isJumping) {</div><div class="line">                            ride();</div><div class="line">                        }</div><div class="line">                        isRidingLeft = <span class="keyword">true</span>;</div><div class="line">                        isRidingRight = <span class="keyword">false</span>;</div><div class="line">                        ride2Left();</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">case</span> MotionEvent.ACTION_UP:</div><div class="line">                        <span class="keyword">if</span> (!isRidingRight) {</div><div class="line">                            mIV.animate().cancel();</div><div class="line">                        }</div><div class="line">                        <span class="keyword">if</span> (!isJumping && !isRidingRight) {</div><div class="line">                            mAnimationDrawable.stop();</div><div class="line">                        }</div><div class="line">                        isRidingLeft = <span class="keyword">false</span>;</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                }</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            }</div><div class="line">        });</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     * 判断车子是否在运动</div><div class="line">     *<span class="javadoctag"> @return</span></div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isRiding</span>() {</div><div class="line">        <span class="keyword">return</span> isRidingLeft || isRidingRight;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     * 播放骑行中（车轮滚动状态）的帧动画</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ride</span>() {</div><div class="line">        mIV.setBackgroundResource(R.drawable.riding);</div><div class="line">        mAnimationDrawable = (AnimationDrawable) mIV.getBackground();</div><div class="line">        <span class="keyword">if</span> (mAnimationDrawable != <span class="keyword">null</span> && !mAnimationDrawable.isRunning()) {</div><div class="line">            mAnimationDrawable.start();</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     * 播放跳跃的帧动画</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">jump</span>() {</div><div class="line">        mIV.setBackgroundResource(R.drawable.jump);</div><div class="line">        mAnimationDrawable = (AnimationDrawable) mIV.getBackground();</div><div class="line">        <span class="keyword">if</span> (mAnimationDrawable != <span class="keyword">null</span> && !mAnimationDrawable.isRunning()) {</div><div class="line">            mAnimationDrawable.stop();</div><div class="line">            mAnimationDrawable.start();</div><div class="line">            isJumping = <span class="keyword">true</span>;</div><div class="line">            mHandler.postDelayed(<span class="keyword">new</span> Runnable() {</div><div class="line">                <span class="annotation">@Override</span></div><div class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {</div><div class="line">                    mAnimationDrawable.stop();</div><div class="line">                    isJumping = <span class="keyword">false</span>;</div><div class="line">                    <span class="keyword">if</span> (isRiding()) {</div><div class="line">                        ride();</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }, <span class="number">21</span> * <span class="number">50</span>);</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     * 往右运动</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ride2Right</span>() {</div><div class="line">        mIV.animate().cancel();</div><div class="line">        mIV.animate().translationXBy(<span class="number">10000</span>).setInterpolator(<span class="keyword">new</span> LinearInterpolator()).setDuration(<span class="number">20000</span>).start();</div><div class="line">        mIV.animate().setUpdateListener(MainActivity.<span class="keyword">this</span>);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     * 往左运动</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ride2Left</span>() {</div><div class="line">        mIV.animate().cancel();</div><div class="line">        mIV.animate().translationXBy(-<span class="number">10000</span>).setInterpolator(<span class="keyword">new</span> LinearInterpolator()).setDuration(<span class="number">20000</span>).start();</div><div class="line">        mIV.animate().setUpdateListener(MainActivity.<span class="keyword">this</span>);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     * 当自行车出了屏幕边界后，重新从另一面驶入</div><div class="line">     *<span class="javadoctag"> @param</span> animation</div><div class="line">     */</div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span>(ValueAnimator animation) {</div><div class="line">        <span class="keyword">if</span> (mIV.getTranslationX() &gt; getWindow().getDecorView().getWidth() - <span class="number">34</span>) {</div><div class="line">            mIV.setTranslationX(-mIV.getWidth() + <span class="number">70</span>);</div><div class="line">            ride2Right();</div><div class="line">        } <span class="keyword">else</span> <span class="keyword">if</span> (mIV.getTranslationX() &lt; -mIV.getWidth() + <span class="number">70</span>) {</div><div class="line">            mIV.setTranslationX(getWindow().getDecorView().getWidth() - <span class="number">34</span>);</div><div class="line">            ride2Left();</div><div class="line">        }</div><div class="line"></div><div class="line">    }</div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>activity_main.xml:</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">RelativeLayout</span> <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attribute">xmlns:tools</span>=<span class="value">"http://schemas.android.com/tools"</span> <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></div><div class="line">    <span class="attribute">android:layout_height</span>=<span class="value">"match_parent"</span> <span class="attribute">tools:context</span>=<span class="value">".MainActivity"</span></div><div class="line">    <span class="attribute">android:background</span>=<span class="value">"#FFF"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="title">ImageView</span></span></div><div class="line">        <span class="attribute">android:id</span>=<span class="value">"@+id/iv_canvas"</span></div><div class="line">        <span class="attribute">android:layout_width</span>=<span class="value">"150dp"</span></div><div class="line">        <span class="attribute">android:layout_height</span>=<span class="value">"150dp"</span>/&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="title">LinearLayout</span></span></div><div class="line">        <span class="attribute">android:layout_alignParentBottom</span>=<span class="value">"true"</span></div><div class="line">        <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></div><div class="line">        <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></div><div class="line">        <span class="attribute">android:layout_centerHorizontal</span>=<span class="value">"true"</span></div><div class="line">        <span class="attribute">android:orientation</span>=<span class="value">"horizontal"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="title">Button</span></span></div><div class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/btn_left"</span></div><div class="line">            <span class="attribute">android:layout_margin</span>=<span class="value">"10dp"</span></div><div class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></div><div class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></div><div class="line">            <span class="attribute">android:text</span>=<span class="value">"Left"</span>/&gt;</div><div class="line">        <span class="tag">&lt;<span class="title">Button</span></span></div><div class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/btn_right"</span></div><div class="line">            <span class="attribute">android:layout_margin</span>=<span class="value">"10dp"</span></div><div class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></div><div class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></div><div class="line">            <span class="attribute">android:text</span>=<span class="value">"Right"</span>/&gt;</div><div class="line">        <span class="tag">&lt;<span class="title">Button</span></span></div><div class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/btn_jump"</span></div><div class="line">            <span class="attribute">android:layout_margin</span>=<span class="value">"10dp"</span></div><div class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></div><div class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></div><div class="line">            <span class="attribute">android:text</span>=<span class="value">"Jump"</span>/&gt;</div><div class="line">    <span class="tag">&lt;/<span class="title">LinearLayout</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+
+<p><span style="color:#FF0000">全部代码下载地址: </span> </p>
+<p><a href="https://github.com/hellsam/DrawableAnimationDemo" target="_blank" rel="external">https://github.com/hellsam/DrawableAnimationDemo</a></p>
+<p><span style="color:#18DDDD"><strong>欢迎留言交流，如有描述不当或错误的地方还请留言告知</strong></span> </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/android/">Android</a><a href="/tags/自定义View/">自定义View</a><a href="/tags/ProgressView/">ProgressView</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://hellsam.com/2016/01/28/Android山地车动起来/" data-title="Android跳跃吧山地车 | 菜鸟的天堂——hellsam" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/07/用Chrome来调试Android网络&数据库/" title="用Chrome来调试Android网络&amp;数据库">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  用Chrome来调试Android网络&amp;数据库</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/01/27/Android自定义View之酷炫吊炸天的圆环（二）/"  title="Android自定义View之酷炫吊炸天的圆环（二）">
+ <strong>NEXT:</strong><br/> 
+ <span>Android自定义View之酷炫吊炸天的圆环（二）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	
+	<div class="ds-thread" data-title="Android跳跃吧山地车" data-thread-key="Android山地车动起来" data-author-key="HellSam" data-url="http://hellsam.com/post/Android山地车动起来"></div>
+	
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#先看下最终的效果"><span class="toc-number">1.</span> <span class="toc-text">先看下最终的效果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#涉及的知识点"><span class="toc-number">2.</span> <span class="toc-text">涉及的知识点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下面给出其余相关代码"><span class="toc-number">3.</span> <span class="toc-text">下面给出其余相关代码</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-logo"></div>		
+	
+	<div class="social-list" class="clearfix">
+		
+		
+		
+		
+		
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="Android">Android<sup>6</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/others/" title="Others">Others<sup>2</sup></a></li>
+		
+			<li><a href="/categories/SenchaTouch2/" title="SenchaTouch2">SenchaTouch2<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/android/" title="Android">Android<sup>5</sup></a></li>
+		
+			<li><a href="/tags/Android开发/" title="Android开发">Android开发<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Android调试/" title="Android调试">Android调试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Geek/" title="Geek">Geek<sup>2</sup></a></li>
+		
+			<li><a href="/tags/NodeJS/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/ProgressView/" title="ProgressView">ProgressView<sup>2</sup></a></li>
+		
+			<li><a href="/tags/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+			<li><a href="/tags/progress/" title="progress">progress<sup>0</sup></a></li>
+		
+			<li><a href="/tags/sencha-touch/" title="sencha touch">sencha touch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/stetho/" title="stetho">stetho<sup>1</sup></a></li>
+		
+			<li><a href="/tags/坑/" title="坑">坑<sup>1</sup></a></li>
+		
+			<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+		
+			<li><a href="/tags/极客学院/" title="极客学院">极客学院<sup>2</sup></a></li>
+		
+			<li><a href="/tags/渐变圆环/" title="渐变圆环">渐变圆环<sup>1</sup></a></li>
+		
+			<li><a href="/tags/游戏/" title="游戏">游戏<sup>1</sup></a></li>
+		
+			<li><a href="/tags/破解/" title="破解">破解<sup>2</sup></a></li>
+		
+			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+		
+			<li><a href="/tags/自定义View/" title="自定义View">自定义View<sup>3</sup></a></li>
+		
+			<li><a href="/tags/颜色渐变算法/" title="颜色渐变算法">颜色渐变算法<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://blog.csdn.net/qp23401" target="_blank" title="CSDN">CSDN Blog</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+    
+            <p class="copyright"> © 2016 
+		
+		<a href="http://hellsam.com" target="_blank" title="HellSam">HellSam</a>
+		
+            && Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> && Theme by <a href="http://gengbiao.me" target="_blank" title="coney">coney</a>
+            </div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"hellsam"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+<script>
+    
+        var _bdImg = '4';
+    
+    window._bd_share_config={
+        "common":{
+            "bdSnsKey":{
+
+            },
+            "bdText":"",
+            "bdMini":"2",
+            "bdMiniList":[
+                "qzone",
+                "tsina",
+                "weixin",
+                "renren",
+                "tqq",
+                "tieba",
+                "douban",
+                "sqq",
+                "diandian",
+                "huaban",
+                "youdao",
+                "mail",
+                "ty",
+                "fbook",
+                "twi",
+                "linkedin",
+                "copy",
+                "print"
+            ],
+            "bdPic":"",
+            "bdStyle":"0",
+            "bdSize":"16"
+        },
+        "slide":{
+            "type":"slide",
+            "bdImg":_bdImg,
+            "bdPos":"right",
+            "bdTop":"350"
+        },
+        "image":{
+            "viewList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ],
+            "viewText":"分享：",
+            "viewSize":"16"
+        },
+        "selectShare":{
+            "bdContainerClass":null,
+            "bdSelectMiniList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ]
+        }
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
+

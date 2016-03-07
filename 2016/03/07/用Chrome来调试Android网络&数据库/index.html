@@ -1,0 +1,579 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu_union_verify" content="d1952c66cf48912e21c18c7c581f382a">
+  <meta name="360-site-verification" content="67fbcc5a67f4c65c057315b28fa0b2c8" />
+<meta name="google-site-verification" content="2GzxQ0VtXwTSUdmGm6DzcmhTzM_I9QmzCb_pzpMzD88" />
+  
+    <title>用Chrome来调试Android网络&amp;数据库 | 菜鸟的天堂——hellsam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="HellSam">
+    
+    <meta name="description" content="先来谈谈我的数据库调试历程
+第一阶段：
+
+这个熟悉的界面，记得那是13年初的时候，想要查看sqlite里面的数据都要通过这个Android Device Monitor找到/data/data/com.xxx.xxx/databases里面的db文件，然后导出到PC上，最后用PC上的数据库工具打开来">
+    
+    
+    
+    
+    <link rel="alternate" href="atom.xml" title="菜鸟的天堂——hellsam" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            var _bdId ='ab7f3e6552e292b9130dc7bd93c9d260';
+             hm.src = "//hm.baidu.com/hm.js?" + _bdId;
+             var s = document.getElementsByTagName("script")[0]; 
+             s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+     
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="菜鸟的天堂——hellsam">菜鸟的天堂——hellsam</a></h1>
+				<a class="blog-motto">一步两步一步两步，似大神的步伐</a>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/categories/android">Android</a></li>
+					
+						<li><a href="/categories/nodejs">NodeJS</a></li>
+					
+						<li><a href="/categories/hack">Hack</a></li>
+					
+						<li><a href="/categories/others">Others</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:hellsam.com">
+					</form>
+					
+					</li>
+				</ul>
+                            </nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/07/用Chrome来调试Android网络&数据库/" title="用Chrome来调试Android网络&amp;数据库" itemprop="url">用Chrome来调试Android网络&amp;数据库</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://hellsam.com" title="HellSam">HellSam</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2016-03-07T07:09:22.000Z" itemprop="datePublished">Mar 7 2016</time>
+    Updated:<time datetime="2016-03-07T07:09:22.000Z" itemprop="dateModified">Mar 7 2016</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#先来谈谈我的数据库调试历程"><span class="toc-number">1.</span> <span class="toc-text">先来谈谈我的数据库调试历程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一阶段："><span class="toc-number">1.1.</span> <span class="toc-text">第一阶段：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二阶段："><span class="toc-number">1.2.</span> <span class="toc-text">第二阶段：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三阶段："><span class="toc-number">1.3.</span> <span class="toc-text">第三阶段：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#再来谈谈我的网络调试历程"><span class="toc-number">2.</span> <span class="toc-text">再来谈谈我的网络调试历程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一阶段：-1"><span class="toc-number">2.1.</span> <span class="toc-text">第一阶段：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二阶段：-1"><span class="toc-number">2.2.</span> <span class="toc-text">第二阶段：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三阶段"><span class="toc-number">2.3.</span> <span class="toc-text">第三阶段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#One_more_thing"><span class="toc-number">3.</span> <span class="toc-text">One more thing</span></a></li></ol>
+		</div>
+		
+		<h2 id="先来谈谈我的数据库调试历程">先来谈谈我的数据库调试历程</h2>
+<h3 id="第一阶段：">第一阶段：</h3>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_01.png?imageView2/2/w/640" alt=""></p>
+<p>这个熟悉的界面，记得那是13年初的时候，想要查看sqlite里面的数据都要通过这个Android Device Monitor找到/data/data/com.xxx.xxx/databases里面的db文件，然后导出到PC上，最后用PC上的数据库工具打开来查看。</p>
+<blockquote>
+<p>还会遇到data文件夹死活打不开的情况（权限问题），说多了都是泪😭</p>
+</blockquote>
+<h3 id="第二阶段：">第二阶段：</h3>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_02.png?imageView2/2/w/480" alt=""></p>
+<p>后来手机上出现了一些资源查看的App(需要root权限)，可以直接在手机上查看数据库啦~</p>
+<p>这比上面那种方式真是方便太多了，但也有很多不足之处，比如需要两个应用切换来切换去、当数据量比较大的时候会比较卡。</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_03.png?imageView2/2/w/1280" alt=""></p>
+<h3 id="第三阶段：">第三阶段：</h3>
+<p>下面就是本文的重点啦~通过chrome来查看android数据库。</p>
+<p>主角：Facebook推出的<code>Stetho</code>，<a href="http://facebook.github.io/stetho/" target="_blank" rel="external">官网</a></p>
+<p>集成步骤：</p>
+<ol>
+<li>引入依赖包</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.facebook.stetho:stetho:1.3.1'</span></div></pre></td></tr></table></figure>
+
+
+<ol>
+<li>初始化一下</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>{</div><div class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span>() {</div><div class="line">    <span class="keyword">super</span>.onCreate();</div><div class="line">    Stetho.initializeWithDefaults(<span class="keyword">this</span>);</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<ol>
+<li>运行App, 打开Chrome输入<code>chrome://inspect/#devices</code></li>
+</ol>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_06.png?imageView2/2/w/1280" alt=""></p>
+<p>如上图，chrome会检测到我们的app，点击<code>inspect</code>进入查看页面</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_07.png?imageView2/2/w/1280" alt=""></p>
+<p>做过Web前端开发的小伙伴们对这个界面应该再熟悉不过了，此时如果你的app中有数据库存在的话就可以在<code>Resources</code>下的<code>Web SQL</code>中找到你的数据库文件查看数据库中的内容啦~</p>
+<blockquote>
+<p>如果想要修改的话，可以点击数据库文件名就进入cmd模式了，可以通过sql命令来增删改查啦~~(≧▽≦)/~</p>
+</blockquote>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_08.png?imageView2/2/w/1280" alt=""></p>
+<blockquote>
+<p>完整测试代码，将在文末给出(^o^)/</p>
+</blockquote>
+<h2 id="再来谈谈我的网络调试历程">再来谈谈我的网络调试历程</h2>
+<h3 id="第一阶段：-1">第一阶段：</h3>
+<p>用的最挫的方式，那就是想要看返回结果什么的时候，自己用Log打印出来看咯😓</p>
+<blockquote>
+<p>打印对象的话，可以用下<code>FastJson：JSON.toJSONString(object);</code></p>
+</blockquote>
+<h3 id="第二阶段：-1">第二阶段：</h3>
+<p>一些第三方的网络请求库，都可以添加拦截器，然后就可以在拦截器中把</p>
+<p><code>Request Url</code></p>
+<p><code>Request Headers</code></p>
+<p><code>Request Body</code></p>
+<p><code>Response Body</code></p>
+<p><code>Response Code</code></p>
+<p>之类都打印出来看</p>
+<p>如OkHttp：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient.Builder()</div><div class="line">                .addInterceptor(<span class="keyword">new</span> Interceptor() {</div><div class="line">            <span class="annotation">@Override</span></div><div class="line">            <span class="keyword">public</span> Response <span class="title">intercept</span>(Chain chain) <span class="keyword">throws</span> IOException {</div><div class="line">                Request request = chain.request();</div><div class="line"></div><div class="line">                LogUtils.i(<span class="string">"url:"</span> + request.url());</div><div class="line">                LogUtils.i(<span class="string">"request headers"</span> + JSON.toJSONString(request.headers()));</div><div class="line">                LogUtils.i(<span class="string">"request body:"</span> + bodyToString(request));</div><div class="line">                <span class="keyword">long</span> t1 = System.nanoTime();</div><div class="line">                Response response = chain.proceed(request);</div><div class="line">                <span class="keyword">long</span> t2 = System.nanoTime();</div><div class="line"></div><div class="line">                <span class="keyword">double</span> time = (t2 - t1) / <span class="number">1e6</span>d;</div><div class="line">                LogUtils.i(<span class="string">"time:"</span> + time);</div><div class="line">                LogUtils.i(<span class="string">"code:"</span> + response.code());</div><div class="line"></div><div class="line">                <span class="keyword">return</span> response;</div><div class="line">            }</div><div class="line">        }).build();</div><div class="line">        </div><div class="line">        </div><div class="line">    <span class="keyword">private</span> String <span class="title">bodyToString</span>(<span class="keyword">final</span> Request request){</div><div class="line">        <span class="keyword">try</span> {</div><div class="line">            <span class="keyword">final</span> Request copy = request.newBuilder().build();</div><div class="line">            <span class="keyword">final</span> Buffer buffer = <span class="keyword">new</span> Buffer();</div><div class="line">            copy.body().writeTo(buffer);</div><div class="line">            <span class="keyword">return</span> buffer.readUtf8();</div><div class="line">        } <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) {</div><div class="line">            <span class="keyword">return</span> <span class="string">"did not work"</span>;</div><div class="line">        }</div><div class="line">    }</div></pre></td></tr></table></figure>
+
+<p>也用一些抓包工具，如PC上的Fidder，Mac上的Charles。</p>
+<p>但有时候只是想看看请求的数据和返回的数据，设置代理什么的感觉也挺麻烦的。</p>
+<h3 id="第三阶段">第三阶段</h3>
+<p>通过<code>Stetho</code>来实现，chrome调试Android网络请求。</p>
+<blockquote>
+<p>注：这里的例子是基于采用okhttp来发请求的，如果是<code>HttpURLConnection</code>可以到<a href="http://facebook.github.io/stetho/" target="_blank" rel="external">Stetho官网</a></p>
+</blockquote>
+<p>步骤：</p>
+<ol>
+<li>引入依赖包</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.facebook.stetho:stetho:1.3.1'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.facebook.stetho:stetho-okhttp3:1.3.1'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.0.0-beta4'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.okhttp3:okhttp:3.2.0'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:converter-gson:2.0.0-beta4'</span></div></pre></td></tr></table></figure>
+
+
+<ol>
+<li>初始化一下</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>{</div><div class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span>() {</div><div class="line">    <span class="keyword">super</span>.onCreate();</div><div class="line">    Stetho.initializeWithDefaults(<span class="keyword">this</span>);</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<ol>
+<li>添加拦截器</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">OkHttpClient client = <span class="keyword">new</span> OkHttpClient.Builder()</div><div class="line">               .addNetworkInterceptor(<span class="keyword">new</span> StethoInterceptor())</div><div class="line">               .build();</div></pre></td></tr></table></figure>
+
+
+<pre><code><span class="blockquote">&gt; 注：是addNetworkInterceptor不是addInterceptor</span>
+</code></pre><ol>
+<li><p>运行App, 打开Chrome输入<code>chrome://inspect/#devices</code>（跟上文查看数据库内容的步骤一样）</p>
+<p> 点击<code>inspect</code>进入查看页面，然后在app用okhttp发起一个请求，就可以在<code>Network</code>下拦截到请求的相关数据了。</p>
+<p> <img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_09.png" alt=""></p>
+<p> nice~</p>
+<blockquote>
+<p>小贴士：用Chrome开发者工具抓包的时候，会发现如果页面跳转了，那么上一个页面的请求信息就没有了。这个只要勾选上<code>Preserve log</code>就不会了。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="One_more_thing">One more thing</h2>
+<p>界面UI树状结构也能抓的到呀！！！</p>
+<p><code>Elements</code>下查看~</p>
+<p>普通text信息还可以直接修改并在手机上预览效果。</p>
+<p><img src="http://7u2ne2.com1.z0.glb.clouddn.com/blog_chrome_debug_android_11.png" alt=""></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Android开发/">Android开发</a><a href="/tags/Android调试/">Android调试</a><a href="/tags/stetho/">stetho</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/android/">Android</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://hellsam.com/2016/03/07/用Chrome来调试Android网络&数据库/" data-title="用Chrome来调试Android网络&amp;数据库 | 菜鸟的天堂——hellsam" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/01/28/Android山地车动起来/"  title="Android跳跃吧山地车">
+ <strong>NEXT:</strong><br/> 
+ <span>Android跳跃吧山地车
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	
+	<div class="ds-thread" data-title="用Chrome来调试Android网络&amp;数据库" data-thread-key="用Chrome来调试Android网络&amp;数据库" data-author-key="HellSam" data-url="http://hellsam.com/post/用Chrome来调试Android网络&数据库"></div>
+	
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#先来谈谈我的数据库调试历程"><span class="toc-number">1.</span> <span class="toc-text">先来谈谈我的数据库调试历程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一阶段："><span class="toc-number">1.1.</span> <span class="toc-text">第一阶段：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二阶段："><span class="toc-number">1.2.</span> <span class="toc-text">第二阶段：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三阶段："><span class="toc-number">1.3.</span> <span class="toc-text">第三阶段：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#再来谈谈我的网络调试历程"><span class="toc-number">2.</span> <span class="toc-text">再来谈谈我的网络调试历程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一阶段：-1"><span class="toc-number">2.1.</span> <span class="toc-text">第一阶段：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二阶段：-1"><span class="toc-number">2.2.</span> <span class="toc-text">第二阶段：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三阶段"><span class="toc-number">2.3.</span> <span class="toc-text">第三阶段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#One_more_thing"><span class="toc-number">3.</span> <span class="toc-text">One more thing</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-logo"></div>		
+	
+	<div class="social-list" class="clearfix">
+		
+		
+		
+		
+		
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">Categories</p>
+		<ul>
+		
+			<li><a href="/categories/android/" title="Android">Android<sup>6</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/categories/others/" title="Others">Others<sup>2</sup></a></li>
+		
+			<li><a href="/categories/SenchaTouch2/" title="SenchaTouch2">SenchaTouch2<sup>1</sup></a></li>
+		
+			<li><a href="/categories/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/android/" title="Android">Android<sup>5</sup></a></li>
+		
+			<li><a href="/tags/Android开发/" title="Android开发">Android开发<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Android调试/" title="Android调试">Android调试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Geek/" title="Geek">Geek<sup>2</sup></a></li>
+		
+			<li><a href="/tags/NodeJS/" title="NodeJS">NodeJS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/ProgressView/" title="ProgressView">ProgressView<sup>2</sup></a></li>
+		
+			<li><a href="/tags/hack/" title="hack">hack<sup>2</sup></a></li>
+		
+			<li><a href="/tags/progress/" title="progress">progress<sup>0</sup></a></li>
+		
+			<li><a href="/tags/sencha-touch/" title="sencha touch">sencha touch<sup>1</sup></a></li>
+		
+			<li><a href="/tags/stetho/" title="stetho">stetho<sup>1</sup></a></li>
+		
+			<li><a href="/tags/坑/" title="坑">坑<sup>1</sup></a></li>
+		
+			<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+		
+			<li><a href="/tags/极客学院/" title="极客学院">极客学院<sup>2</sup></a></li>
+		
+			<li><a href="/tags/渐变圆环/" title="渐变圆环">渐变圆环<sup>1</sup></a></li>
+		
+			<li><a href="/tags/游戏/" title="游戏">游戏<sup>1</sup></a></li>
+		
+			<li><a href="/tags/破解/" title="破解">破解<sup>2</sup></a></li>
+		
+			<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+		
+			<li><a href="/tags/自定义View/" title="自定义View">自定义View<sup>3</sup></a></li>
+		
+			<li><a href="/tags/颜色渐变算法/" title="颜色渐变算法">颜色渐变算法<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+      <li><a href="http://blog.csdn.net/qp23401" target="_blank" title="CSDN">CSDN Blog</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+    
+            <p class="copyright"> © 2016 
+		
+		<a href="http://hellsam.com" target="_blank" title="HellSam">HellSam</a>
+		
+            && Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> && Theme by <a href="http://gengbiao.me" target="_blank" title="coney">coney</a>
+            </div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"hellsam"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+<script>
+    
+        var _bdImg = '4';
+    
+    window._bd_share_config={
+        "common":{
+            "bdSnsKey":{
+
+            },
+            "bdText":"",
+            "bdMini":"2",
+            "bdMiniList":[
+                "qzone",
+                "tsina",
+                "weixin",
+                "renren",
+                "tqq",
+                "tieba",
+                "douban",
+                "sqq",
+                "diandian",
+                "huaban",
+                "youdao",
+                "mail",
+                "ty",
+                "fbook",
+                "twi",
+                "linkedin",
+                "copy",
+                "print"
+            ],
+            "bdPic":"",
+            "bdStyle":"0",
+            "bdSize":"16"
+        },
+        "slide":{
+            "type":"slide",
+            "bdImg":_bdImg,
+            "bdPos":"right",
+            "bdTop":"350"
+        },
+        "image":{
+            "viewList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ],
+            "viewText":"分享：",
+            "viewSize":"16"
+        },
+        "selectShare":{
+            "bdContainerClass":null,
+            "bdSelectMiniList":[
+                "weixin",
+                "qzone",
+                "tsina",
+                "renren",
+                "douban",
+                "tqq"
+            ]
+        }
+    };
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
+
